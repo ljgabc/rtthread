@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            // "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/libc",
+                "D:\\Keil_v5\\ARM\\ARMCLANG\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        }
+    ],
+    "version": 4
+}
