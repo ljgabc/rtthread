@@ -1,0 +1,67 @@
+config N32G003F5Q7
+     bool "N32G003F5Q7 QFN20"
+
+config N32G003F5S7
+     bool "N32G003F5S7 TSSOP20"
+
+config N32G003_UART1
+     bool "Uart1 Support"
+     depends on USE_SERIAL
+     default n
+
+choice
+    prompt "UART1 TX PIN"
+    depends on N32G003_UART1
+config N32G003_UART1_TX_PA2
+     bool "Use PA2 as UART1 TX"
+
+config N32G003_UART1_TX_PA14
+     bool "Use PA14 as UART1 TX"
+
+config N32G003_UART1_TX_PB0
+     bool "Use PB0 as UART1 TX"
+endchoice
+
+choice
+    prompt "UART1 RX PIN"
+    depends on N32G003_UART1
+config N32G003_UART1_RX_PA3
+     bool "Use PA3 as UART1 RX"
+
+config N32G003_UART1_RX_PA12
+     bool "Use PA12 as UART1 RX"
+
+config N32G003_UART1_RX_PB1
+     bool "Use PB1 as UART1 RX"
+endchoice
+
+config USEN32G003_UART2
+     bool "Uart2 Support"
+     depends on USE_SERIAL
+     default n
+
+choice
+    prompt "UART1 TX PIN"
+    depends on USEN32G003_UART2
+config N32G003_UART2_TX_PA2
+     bool "Use PA2 as UART2 TX"
+
+config N32G003_UART2_TX_PA8
+     bool "Use PA8 as UART2 TX"
+
+config N32G003_UART2_TX_PA9
+     bool "Use PA9 as UART2 TX"
+endchoice
+
+choice
+    prompt "UART1 RX PIN"
+    depends on USEN32G003_UART2
+config N32G003_UART2_RX_PA1
+     bool "Use PA1 as UART2 RX"
+
+config N32G003_UART2_RX_PA7
+     bool "Use PA7 as UART2 RX"
+
+config N32G003_UART2_RX_PA9
+     bool "Use PA9 as UART2 RX"
+endchoice
