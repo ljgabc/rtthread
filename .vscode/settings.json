@@ -2,6 +2,10 @@
     "files.associations": {
         "rtthread.h": "c",
         "rtconfig.h": "c",
-        "rtdef.h": "c"
+        "rtdef.h": "c",
+        "kconfig": "c",
+        "rt_pin.h": "c",
+        "rt_pwm.h": "c",
+        "config.h": "c"
     }
 }

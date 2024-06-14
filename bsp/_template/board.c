@@ -8,6 +8,7 @@
  * 2021-05-24                  the first version
  */
 
+#include "config.h"
 #include <rthw.h>
 #include <rtthread.h>
 
@@ -16,15 +17,15 @@
  * Please modify RT_HEAP_SIZE if you enable RT_USING_HEAP
  * the RT_HEAP_SIZE max value = (sram size - ZI size), 1024 means 1024 bytes
  */
-#define RT_HEAP_SIZE (15*1024)
+#define RT_HEAP_SIZE CONFIG_HEAP_SIZE
 static rt_uint8_t rt_heap[RT_HEAP_SIZE];
 
-RT_WEAK void *rt_heap_begin_get(void)
+RT_WEAK void* rt_heap_begin_get(void)
 {
     return rt_heap;
 }
 
-RT_WEAK void *rt_heap_end_get(void)
+RT_WEAK void* rt_heap_end_get(void)
 {
     return rt_heap + RT_HEAP_SIZE;
 }
@@ -33,7 +34,7 @@ RT_WEAK void *rt_heap_end_get(void)
 void rt_os_tick_callback(void)
 {
     rt_interrupt_enter();
-    
+
     rt_tick_increase();
 
     rt_interrupt_leave();
@@ -60,20 +61,3 @@ void rt_hw_board_init(void)
     rt_system_heap_init(rt_heap_begin_get(), rt_heap_end_get());
 #endif
 }
-
-#ifdef RT_USING_CONSOLE
-
-static int uart_init(void)
-{
-#error "TODO 2: Enable the hardware uart and config baudrate."
-    return 0;
-}
-INIT_BOARD_EXPORT(uart_init);
-
-void rt_hw_console_output(const char *str)
-{
-#error "TODO 3: Output the string 'str' through the uart."
-}
-
-#endif
-

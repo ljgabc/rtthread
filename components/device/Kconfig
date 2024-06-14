@@ -1,0 +1,85 @@
+config USE_DEVICE
+     bool "Use Device SubSystem"
+     default y
+
+config USE_ADC
+     bool "adc api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_I2C
+     bool "i2c api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_PIN
+     bool "pin api support"
+     depends on USE_DEVICE
+     default y
+
+config USE_PWM
+     bool "pwm api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_SERIAL
+     bool "serial api support"
+     depends on USE_DEVICE
+     select USE_RINGBUFFER
+     default n
+
+config SERIAL_RX_FIFOSZ
+     int "serial rx fifo size"
+     depends on USE_SERIAL
+     default 64
+
+config SERIAL_TX_FIFOSZ
+     int "serial rx fifo size"
+     depends on USE_SERIAL
+     default SERIAL_RX_FIFOSZ
+
+config SERIAL_USE_DMA_RX
+     bool "serial use dma to rx"
+     depends on USE_SERIAL
+     default n
+
+config SERIAL_DMA_RX_BUFSZ
+     int "serial rx dma buffer size, used to be SERIAL_RX_FIFOSZ / 2"
+     depends on SERIAL_USE_DMA_RX
+     default 32
+
+config SERIAL_USE_DMA_TX
+     bool "serial use dma to tx"
+     depends on USE_SERIAL
+     default n
+
+config SERIAL_DMA_TX_BUFSZ
+     int "serial tx dma buffer size, used to be SERIAL_TX_FIFOSZ / 2"
+     depends on SERIAL_USE_DMA_TX
+     default SERIAL_DMA_RX_BUFSZ
+
+config USE_SPI
+     bool "spi api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_WDT
+     bool "watchdog api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_TIM
+     bool "hwtimer api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_FLASH
+     bool "flash api support"
+     depends on USE_DEVICE
+     default n
+
+config USE_RTC
+     bool "rtc api support"
+     depends on USE_DEVICE
+     default n
+     

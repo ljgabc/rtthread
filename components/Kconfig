@@ -1,0 +1,7 @@
+menu "device subsystem"
+     orsource "device/Kconfig"
+endmenu
+
+config USE_RINGBUFFER
+     bool "lock-free ringbuffer support"
+     default y

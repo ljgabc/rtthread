@@ -1,0 +1,21 @@
+mainmenu "Framework Configuration"
+
+menu "app configuration"
+     orsource "app/Kconfig"
+endmenu
+
+menu "bsp configuration"
+     orsource "bsp/Kconfig"
+endmenu
+
+menu "component configuration"
+     orsource "components/Kconfig"
+endmenu
+
+menu "cpu configuration"
+     orsource "cpu/Kconfig"
+endmenu
+
+menu "os configuration"
+     orsource "os/Kconfig"
+endmenu

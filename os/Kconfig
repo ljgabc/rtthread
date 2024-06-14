@@ -1,0 +1,59 @@
+config USE_RTOS
+    bool "Use RT-Thread RTOS"
+    default y
+
+config OS_TICK_RATE
+    int "OS tick per second"
+    depends on USE_RTOS
+    default 100
+
+config OS_MAX_PRIORITY
+    int "Maximal level of thread priority <8 - 256>"
+    depends on USE_RTOS
+    default 8
+
+config OS_USE_TIMER
+    bool "Enables user timers"
+    depends on USE_RTOS
+    default n
+
+config OS_TIMER_TASK_PRIORITY
+    int "The priority level of timer thread <0 - OS_MAX_PRIORITY>"
+    depends on OS_USE_TIMER
+    default 4
+
+config OS_TIMER_TASK_STACK_SIZE
+    int "The stack size of timer thread <0-8192>"
+    depends on OS_USE_TIMER
+    default 256
+
+config OS_USE_SEMAPHORE
+    bool "Using Semaphore"
+    depends on USE_RTOS
+    default n
+
+config OS_USE_MUTEX
+    bool "Using Mutex"
+    depends on USE_RTOS
+    default n
+
+config OS_USE_MESSAGEQUEUE
+    bool "Using Message Queue"
+    depends on USE_RTOS
+    default n
+
+config USE_COMPONENTS_INIT
+    bool "Using RT-Thread components initialization"
+    depends on USE_RTOS
+    default y
+
+config USE_MEMORY_MANAGEMENT
+    bool "Dynamic Heap Management"
+    depends on USE_RTOS
+    default y
+
+config HEAP_SIZE
+    int "Dynamic Heap Size(bytes), max value = (RAM size - ZI size)"
+    depends on USE_MEMORY_MANAGEMENT
+    default 1024
+    
