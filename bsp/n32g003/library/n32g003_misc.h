@@ -59,7 +59,7 @@
 extern "C" {
 #endif
 
-#include "n32g003.h"
+#include "bsp/n32g003/library/n32g003.h"
 
 /** MISC Driving Functions Declaration **/
 

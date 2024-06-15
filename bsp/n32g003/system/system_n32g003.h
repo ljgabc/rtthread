@@ -55,6 +55,8 @@
 #ifndef __SYSTEM_N32G003_H
 #define __SYSTEM_N32G003_H
 
+#include "rtthread.h"
+
 #ifdef __cplusplus
  extern "C" {
 #endif 
@@ -64,7 +66,7 @@
 #define SYSCLK_FREQ_24M   (24000000)
 #define SYSCLK_FREQ_8M    (8000000)
 
-extern uint32_t SystemCoreClockFrequency;          /* System Clock Frequency (Core Clock) */
+extern rt_uint32_t SystemCoreClockFrequency;          /* System Clock Frequency (Core Clock) */
 
   
 extern void System_Initializes(void);

@@ -1,0 +1,15 @@
+mainmenu "bsp configuration"
+
+choice
+     prompt "bsp support"
+     default BSP_TEMPLATE
+
+config BSP_TEMPLATE
+     bool "!!!template!!! do not use this!!!"
+
+config BSP_N32G003
+     bool "n32g003 support"
+
+endchoice
+
+orsource "n32g003/Kconfig"

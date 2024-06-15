@@ -1,0 +1,20 @@
+config USE_RINGBUFFER
+     bool "ringbuffer support"
+     default y
+
+config USE_COMPLETION
+     bool "completion support"
+     depends on USE_RTOS
+     default n
+
+config USE_DATAQUEUE
+     bool "dataqueue support"
+     depends on USE_RTOS
+     depends on USE_MEMORY_MANAGEMENT
+     default n
+
+config USE_WORKQUEUE
+     bool "workqueue support"
+     depends on USE_RTOS
+     default n
+

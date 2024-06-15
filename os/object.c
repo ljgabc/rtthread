@@ -307,9 +307,10 @@ void rt_object_init(struct rt_object         *object,
     RT_ASSERT(information != RT_NULL);
 
     /* check object type to avoid re-initialization */
-
+#ifdef CONFIG_USE_RTOS
     /* enter critical */
     rt_enter_critical();
+#endif
     /* try to find object */
     for (node  = information->object_list.next;
             node != &(information->object_list);
@@ -323,9 +324,10 @@ void rt_object_init(struct rt_object         *object,
             RT_ASSERT(obj != object);
         }
     }
+#ifdef CONFIG_USE_RTOS
     /* leave critical */
     rt_exit_critical();
-
+#endif
     /* initialize object's parameters */
     /* set object type to static */
     object->type = type | RT_Object_Class_Static;
@@ -522,26 +524,27 @@ rt_object_t rt_object_find(const char *name, rt_uint8_t type)
 
     /* which is invoke in interrupt status */
     RT_DEBUG_NOT_IN_INTERRUPT;
-
+#ifdef CONFIG_USE_RTOS
     /* enter critical */
     rt_enter_critical();
-
+#endif
     /* try to find object */
     rt_list_for_each(node, &(information->object_list))
     {
         object = rt_list_entry(node, struct rt_object, list);
         if (rt_strncmp(object->name, name, RT_NAME_MAX) == 0)
         {
+#ifdef CONFIG_USE_RTOS
             /* leave critical */
             rt_exit_critical();
-
+#endif
             return object;
         }
     }
-
+#ifdef CONFIG_USE_RTOS
     /* leave critical */
     rt_exit_critical();
-
+#endif
     return RT_NULL;
 }
 

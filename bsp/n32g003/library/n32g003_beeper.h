@@ -58,7 +58,7 @@
 extern "C" {
 #endif
 
-#include "n32g003.h"
+#include "bsp/n32g003/library/n32g003.h"
 
 
 #define BEEPER_ENABLE                 (BEEPER_CTRL_EN)   /* Enable Beeper */

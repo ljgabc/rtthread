@@ -13,7 +13,7 @@ menu "component configuration"
 endmenu
 
 menu "cpu configuration"
-     orsource "cpu/Kconfig"
+     orsource "libcpu/Kconfig"
 endmenu
 
 menu "os configuration"

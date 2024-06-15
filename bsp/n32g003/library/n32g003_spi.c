@@ -52,8 +52,8 @@
 *\*\copyright Copyright (c) 2022, Nations Technologies Inc. All rights reserved. 
 **/
 
-#include "n32g003_spi.h"
-#include "n32g003_rcc.h"
+#include "bsp/n32g003/library/n32g003_spi.h"
+#include "bsp/n32g003/library/n32g003_rcc.h"
 
 /* SPI Driving Functions Declaration */
 

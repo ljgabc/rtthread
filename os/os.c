@@ -10,15 +10,16 @@
  */
 #include "config.h"
 
+#include "os/object.c"
+#include "os/kservice.c"
+
 #if CONFIG_USE_RTOS
 #include "os/clock.c"
 #include "os/components.c"
 #include "os/idle.c"
 #include "os/ipc.c"
 #include "os/irq.c"
-#include "os/kservice.c"
 #include "os/mem.c"
-#include "os/object.c"
 #include "os/scheduler.c"
 #include "os/thread.c"
 #include "os/timer.c"

@@ -1,0 +1,24 @@
+choice
+     prompt "arm soc"
+     depends on ARCH_ARM
+     default ARM_CM0
+
+config ARM_CM0
+     bool "cortex-m0"
+
+config ARM_CM3
+     bool "cortex-m3"
+
+config ARM_CM4
+     bool "cortex-m4"
+
+config ARM_CM7
+     bool "cortex-m7"
+
+config ARM_CM23
+     bool "cortex-m23"
+
+config ARM_CM33
+     bool "cortex-m33"
+
+endchoice

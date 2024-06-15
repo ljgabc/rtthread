@@ -51,7 +51,8 @@
 *\*\version v1.0.0
 *\*\copyright Copyright (c) 2022, Nations Technologies Inc. All rights reserved.
  */
-#include "mcu/n32g003/library/n32g003.h"
+#include "bsp/n32g003/library/n32g003_flash.h"
+#include "bsp/n32g003/library/n32g003_rcc.h"
 
 #include "config.h"
 
@@ -83,6 +84,7 @@
 #define SYSCLK_USE_HSI40M     0
 
 #include "config.h"
+#include "bsp/n32g003/library/n32g003_flash.h" 
 
 #ifndef CONFIG_SYSCLK_FREQ
 #define SYSCLK_FREQ 48000000

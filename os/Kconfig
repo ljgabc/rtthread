@@ -13,14 +13,14 @@ config OS_MAX_PRIORITY
     default 8
 
 config OS_USE_TIMER
-    bool "Enables user timers"
+    bool "Enables soft timers"
     depends on USE_RTOS
     default n
 
 config OS_TIMER_TASK_PRIORITY
     int "The priority level of timer thread <0 - OS_MAX_PRIORITY>"
     depends on OS_USE_TIMER
-    default 4
+    default OS_MAX_PRIORITY
 
 config OS_TIMER_TASK_STACK_SIZE
     int "The stack size of timer thread <0-8192>"
@@ -50,10 +50,11 @@ config USE_COMPONENTS_INIT
 config USE_MEMORY_MANAGEMENT
     bool "Dynamic Heap Management"
     depends on USE_RTOS
+    select OS_USE_SEMAPHORE
     default y
 
 config HEAP_SIZE
-    int "Dynamic Heap Size(bytes), max value = (RAM size - ZI size)"
+    int "Dynamic Heap Size(Words, 4Bytes), max value = (RAM size - ZI size)"
     depends on USE_MEMORY_MANAGEMENT
     default 1024
     

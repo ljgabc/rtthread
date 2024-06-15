@@ -51,8 +51,8 @@
 *\*\version v1.0.0
 *\*\copyright Copyright (c) 2022, Nations Technologies Inc. All rights reserved.
 **/
-#include "n32g003_tim.h"
-#include "n32g003_rcc.h"
+#include "bsp/n32g003/library/n32g003_tim.h"
+#include "bsp/n32g003/library/n32g003_rcc.h"
 
 /**
 *\*\name    TIM_Reset.

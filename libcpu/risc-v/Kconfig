@@ -1,0 +1,15 @@
+choice
+     prompt "risc-v soc"
+     depends on ARCH_RISCV
+     default RV32M1
+
+config RV32M1
+     bool "rv32m1"
+
+config K210
+     bool "k210"
+
+config E310
+     bool "e310"
+
+endchoice

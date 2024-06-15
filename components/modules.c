@@ -10,9 +10,9 @@
  */
 #include "config.h"
 
-#if CONFIG_USE_DEVICE_SUBSYSTEM
+#if CONFIG_USE_DEVICE
 
-#include "components/device/device.c"
+#include "components/device/rt_device.c"
 
 #ifdef CONFIG_USE_PIN
 #include "components/device/rt_pin.c"
@@ -59,7 +59,19 @@
 #endif
 
 #ifdef CONFIG_USE_RINGBUFFER
-#include "components/ringbuffer/ringbuffer.c"
+#include "components/ipc/ringbuffer.c"
+#endif
+
+#ifdef CONFIG_USE_COMPLETION
+#include "components/ipc/completion.c"
+#endif
+
+#ifdef CONFIG_USE_WORKQUEUE
+#include "components/ipc/workqueue.c"
+#endif
+
+#ifdef CONFIG_USE_DATAQUEUE
+#include "components/ipc/dataqueue.c"
 #endif
 
 #endif

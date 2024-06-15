@@ -67,14 +67,19 @@ enum {
  * @brief PIN设备模型
  * 
  */
+struct rt_pin_ops;
 struct rt_device_pin {
     struct rt_device dev;
-    rt_err_t (*mode)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode);
-    void (*write)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t val);
-    rt_base_t (*read)(const struct rt_device* dev, rt_base_t pin);
-    rt_err_t (*enable_irq)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode,
+    const struct rt_pin_ops* ops;
+};
+
+struct rt_pin_ops {
+    rt_err_t (*pin_mode)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode);
+    void (*pin_write)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t val);
+    rt_base_t (*pin_read)(const struct rt_device* dev, rt_base_t pin);
+    rt_err_t (*pin_enable_irq)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode,
         void (*hdr)(void* args), const void* args);
-    void (*disable_irq)(const struct rt_device* dev, rt_base_t pin);
+    void (*pin_disable_irq)(const struct rt_device* dev, rt_base_t pin);
 };
 
 /**
@@ -82,7 +87,7 @@ struct rt_device_pin {
  *
  * @param pin   编号
  * @param mode  模式
- * @return 成功返回OK，其他见错误码
+ * @return 成功返回RT_EOK，其他见错误码
  */
 rt_err_t pin_mode(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode);
 
@@ -91,7 +96,6 @@ rt_err_t pin_mode(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode);
  *
  * @param pin   编号
  * @param val   电平
- * @return 成功返回OK，其他见错误码
  */
 void pin_write(const struct rt_device* dev, rt_base_t pin, rt_uint8_t val);
 
@@ -110,7 +114,7 @@ rt_base_t pin_read(const struct rt_device* dev, rt_base_t pin);
  * @param mode      中断模式
  * @param hdr       中断处理函数
  * @param args      传递给中断处理函数的参数
- * @return kk_err_t 成功返回OK，其他见错误码
+ * @return 成功返回RT_EOK，其他见错误码
  */
 rt_err_t pin_enable_irq(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode,
     void (*hdr)(void* args), const void* args);
@@ -119,9 +123,19 @@ rt_err_t pin_enable_irq(const struct rt_device* dev, rt_base_t pin, rt_uint8_t m
  * @brief 取消引脚中断处理函数
  *
  * @param pin       编号
- * @return kk_err_t 成功返回OK，其他见错误码
  */
 void pin_disable_irq(const struct rt_device* dev, rt_base_t pin);
+
+/**
+ * @brief 注册PIN设备
+ * 
+ * @param pin    PIN设备
+ * @param name   设备名称
+ * @param ops    设备操作符
+ * @param user_data 自定义数据
+ * @return 成功返回RT_EOK，其他见错误码
+ */
+rt_err_t rt_device_pin_register(struct rt_device_pin* pin, const char* name, const struct rt_pin_ops* ops, void* user_data);
 
 #ifdef __cplusplus
 }

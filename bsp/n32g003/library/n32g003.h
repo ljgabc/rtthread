@@ -117,8 +117,8 @@ typedef enum IRQn
   COMP_IRQn                   = 15      /* COMP Interrupt                                          */
 } IRQn_Type;
 
-#include "mcu/n32g003/cmsis/core_cm0.h"
-#include "mcu/n32g003/system/system_n32g003.h"
+#include "bsp/n32g003/cmsis/core_cm0.h"
+#include "bsp/n32g003/system/system_n32g003.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -2478,7 +2478,7 @@ typedef struct
 
 
 #ifdef USE_STDPERIPH_DRIVER
-  #include "n32g003_conf.h"
+  #include "bsp/n32g003/library/n32g003_conf.h"
 #endif
 
 /*** Exported_macro ***/

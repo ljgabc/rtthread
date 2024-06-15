@@ -59,7 +59,20 @@
 #endif
 
 #ifdef CONFIG_USE_RINGBUFFER
-#include "components/ringbuffer/ringbuffer.h"
+#include "components/ipc/ringbuffer.h"
 #endif
+
+#ifdef CONFIG_USE_COMPLETION
+#include "components/ipc/completion.h"
+#endif
+
+#ifdef CONFIG_USE_WORKQUEUE
+#include "components/ipc/workqueue.h"
+#endif
+
+#ifdef CONFIG_USE_DATAQUEUE
+#include "components/ipc/dataqueue.h"
+#endif
+
 
 #endif

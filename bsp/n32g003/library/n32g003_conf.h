@@ -57,23 +57,23 @@
 
 /* Uncomment/Comment the line below to enable/disable peripheral header file inclusion */
 
-#include "n32g003_adc.h"
-#include "n32g003_crc.h"
-#include "n32g003_comp.h"
-#include "n32g003_dbg.h"
-#include "n32g003_flash.h"
-#include "n32g003_gpio.h"
-#include "n32g003_i2c.h"
-#include "n32g003_pwr.h"
-#include "n32g003_rcc.h"
-#include "n32g003_spi.h"
-#include "n32g003_tim.h"
-#include "n32g003_uart.h"
-#include "n32g003_iwdg.h"
-#include "n32g003_exti.h"
-#include "n32g003_beeper.h"
+#include "bsp/n32g003/library/n32g003_adc.h"
+#include "bsp/n32g003/library/n32g003_crc.h"
+#include "bsp/n32g003/library/n32g003_comp.h"
+#include "bsp/n32g003/library/n32g003_dbg.h"
+#include "bsp/n32g003/library/n32g003_flash.h"
+#include "bsp/n32g003/library/n32g003_gpio.h"
+#include "bsp/n32g003/library/n32g003_i2c.h"
+#include "bsp/n32g003/library/n32g003_pwr.h"
+#include "bsp/n32g003/library/n32g003_rcc.h"
+#include "bsp/n32g003/library/n32g003_spi.h"
+#include "bsp/n32g003/library/n32g003_tim.h"
+#include "bsp/n32g003/library/n32g003_uart.h"
+#include "bsp/n32g003/library/n32g003_iwdg.h"
+#include "bsp/n32g003/library/n32g003_exti.h"
+#include "bsp/n32g003/library/n32g003_beeper.h"
 
-#include "n32g003_misc.h" /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
+#include "bsp/n32g003/library/n32g003_misc.h" /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
 
 /* Uncomment the line below to expanse the "assert_param" macro in the
    Standard Peripheral Library drivers code */

@@ -38,6 +38,7 @@ static volatile int __rt_errno;
 static rt_device_t _console_device = RT_NULL;
 #endif
 
+#ifdef CONFIG_USE_RTOS
 /*
  * This function will get errno
  *
@@ -106,7 +107,7 @@ int *_rt_errno(void)
 
     return (int *)&__rt_errno;
 }
-
+#endif
 /**
  * This function will set the content of memory to specified value
  *

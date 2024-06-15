@@ -52,7 +52,7 @@
 *\*\copyright Copyright (c) 2022, Nations Technologies Inc. All rights reserved.
  */
 
-#include "n32g003_crc.h"
+#include "bsp/n32g003/library/n32g003_crc.h"
 
 /** CRC Private Defines **/
 

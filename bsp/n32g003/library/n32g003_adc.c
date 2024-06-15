@@ -52,8 +52,8 @@
 *\*\copyright Copyright (c) 2022, Nations Technologies Inc. All rights reserved.
 **/
 
-#include "n32g003_adc.h"
-#include "n32g003_rcc.h"
+#include "bsp/n32g003/library/n32g003_adc.h"
+#include "bsp/n32g003/library/n32g003_rcc.h"
 /**
 *\*\name    ADC_Reset.
 *\*\fun     Reset the ADC registers.

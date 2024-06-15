@@ -59,7 +59,7 @@
 extern "C" {
 #endif
 
-#include "n32g003.h"
+#include "bsp/n32g003/library/n32g003.h"
 
 #define IDCODE_DEVID_MASK ((uint32_t)0x00000FFF)
 

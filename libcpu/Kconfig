@@ -1,0 +1,16 @@
+mainmenu "cpu configuration"
+
+choice
+     prompt "MCU ARCH"
+     default ARCH_ARM
+
+config ARCH_ARM
+     bool "arch arm"
+
+config ARCH_RISCV
+     bool "arch risc-v"
+
+endchoice
+
+orsource "arm/Kconfig"
+orsource "risc-v/Kconfig"

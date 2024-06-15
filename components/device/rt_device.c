@@ -295,7 +295,9 @@ rt_size_t rt_device_read(rt_device_t dev,
     RT_ASSERT(rt_object_get_type(&dev->parent) == RT_Object_Class_Device);
 
     if (dev->ref_count == 0) {
+#ifdef CONFIG_USE_RTOS
         rt_set_errno(-RT_ERROR);
+#endif
         return 0;
     }
 
@@ -303,10 +305,10 @@ rt_size_t rt_device_read(rt_device_t dev,
     if (device_read != RT_NULL) {
         return device_read(dev, pos, buffer, size);
     }
-
+#ifdef CONFIG_USE_RTOS
     /* set error code */
     rt_set_errno(-RT_ENOSYS);
-
+#endif
     return 0;
 }
 
@@ -331,7 +333,9 @@ rt_size_t rt_device_write(rt_device_t dev,
     RT_ASSERT(rt_object_get_type(&dev->parent) == RT_Object_Class_Device);
 
     if (dev->ref_count == 0) {
+#ifdef CONFIG_USE_RTOS
         rt_set_errno(-RT_ERROR);
+#endif
         return 0;
     }
 
@@ -339,10 +343,10 @@ rt_size_t rt_device_write(rt_device_t dev,
     if (device_write != RT_NULL) {
         return device_write(dev, pos, buffer, size);
     }
-
+#ifdef CONFIG_USE_RTOS
     /* set error code */
     rt_set_errno(-RT_ENOSYS);
-
+#endif
     return 0;
 }
 
