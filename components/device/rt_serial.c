@@ -10,6 +10,11 @@
  */
 #include "components/device/rt_serial.h"
 #include "config.h"
+#include "rtdef.h"
+#include "rtdevice.h"
+#include "rthw.h"
+#include "rtthread.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,7 +68,6 @@ rt_inline rt_size_t _serial_poll_tx(struct rt_device* dev, const rt_uint8_t* dat
          */
         if (*data == '\n' && (dev->open_flag & RT_DEVICE_FLAG_STREAM) == RT_DEVICE_FLAG_STREAM && last_char != '\r') {
             serial->ops->putc(serial, '\r');
-
             last_char = 0;
         } else if (*data == '\r') {
             last_char = '\r';
@@ -384,8 +388,8 @@ static rt_err_t rt_serial_open(struct rt_device* dev, rt_uint16_t oflag)
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_serial* serial = (struct rt_device_serial*)dev;
 
-    LOG_D("open serial device: 0x%08x with open flag: 0x%04x",
-        dev, oflag);
+    //LOG_D("open serial device: 0x%08x with open flag: 0x%04x", dev, oflag);
+
     /* check device flag with the open flag */
     if ((oflag & RT_DEVICE_FLAG_DMA_RX) && !(dev->flag & RT_DEVICE_FLAG_DMA_RX))
         return -RT_EIO;
@@ -460,7 +464,7 @@ static rt_err_t rt_serial_open(struct rt_device* dev, rt_uint16_t oflag)
         }
         dev->open_flag |= RT_DEVICE_FLAG_INT_TX;
         /* configure low level device */
-        //        serial->ops->control(serial, RT_DEVICE_CTRL_SET_INT, (void *)RT_DEVICE_FLAG_INT_TX);
+        // serial->ops->control(serial, RT_DEVICE_CTRL_SET_INT, (void *)RT_DEVICE_FLAG_INT_TX);
 
         serial->_cb_tx = _serial_int_tx;
 
@@ -651,7 +655,7 @@ static rt_err_t rt_serial_flush(struct rt_device* dev)
             level = rt_hw_interrupt_disable();
             //        serial->ops->disable_interrupt(serial);
 
-            len = _serial_fifo_calc_data_len(tx_fifo);
+            len = rt_ringbuffer_data_len(tx_fifo);
 
             if (len == 0) {
                 /* enable interrupt */
@@ -748,43 +752,43 @@ const static struct rt_device_ops serial_ops = {
 /*
  * serial register
  */
-rt_err_t rt_hw_serial_register(struct rt_device_serial* serial,
-    const char* name,
-    rt_uint32_t flag,
-    void* data)
-{
-    rt_err_t ret;
-    struct rt_device* device;
-    RT_ASSERT(serial != RT_NULL);
+// rt_err_t rt_hw_serial_register(struct rt_device_serial* serial,
+//     const char* name,
+//     rt_uint32_t flag,
+//     void* data)
+// {
+//     rt_err_t ret;
+//     struct rt_device* device;
+//     RT_ASSERT(serial != RT_NULL);
 
-#ifdef CONFIG_USE_RTOS
-    serial->timeout_tick = RT_WAITING_FOREVER;
-#endif
+// #ifdef CONFIG_USE_RTOS
+//     serial->timeout_tick = RT_WAITING_FOREVER;
+// #endif
 
-    device = &(serial->dev);
+//     device = &(serial->dev);
 
-    device->type = RT_Device_Class_Char;
-    device->rx_indicate = RT_NULL;
-    device->tx_complete = RT_NULL;
+//     device->type = RT_Device_Class_Char;
+//     device->rx_indicate = RT_NULL;
+//     device->tx_complete = RT_NULL;
 
-#ifdef RT_USING_DEVICE_OPS
-    device->ops = &serial_ops;
-#else
-    device->init = rt_serial_init;
-    device->open = rt_serial_open;
-    device->close = rt_serial_close;
-    device->read = rt_serial_read;
-    device->write = rt_serial_write;
-    device->flush = rt_serial_flush;
-    device->control = rt_serial_control;
-#endif
-    device->user_data = data;
+// #ifdef RT_USING_DEVICE_OPS
+//     device->ops = &serial_ops;
+// #else
+//     device->init = rt_serial_init;
+//     device->open = rt_serial_open;
+//     device->close = rt_serial_close;
+//     device->read = rt_serial_read;
+//     device->write = rt_serial_write;
+//     device->flush = rt_serial_flush;
+//     device->control = rt_serial_control;
+// #endif
+//     device->user_data = data;
 
-    /* register a character device */
-    ret = rt_device_register(device, name, flag);
+//     /* register a character device */
+//     ret = rt_device_register(device, name, flag);
 
-    return ret;
-}
+//     return ret;
+// }
 
 /* ISR for serial interrupt */
 void rt_hw_serial_isr(struct rt_device* dev, int event)
@@ -916,6 +920,39 @@ void rt_hw_serial_isr(struct rt_device* dev, int event)
     } break;
 #endif /* RT_SERIAL_USING_DMA */
     }
+}
+
+/**
+ * @brief 注册Serial设备
+ * 
+ * @param pin    Serial设备
+ * @param name   设备名称
+ * @param ops    设备操作符
+ * @param user_data 自定义数据
+ * @return 成功返回RT_EOK，其他见错误码
+ */
+rt_err_t rt_device_serial_register(struct rt_device_serial* serial, const char* name, const struct rt_serial_ops* ops, rt_uint32_t flag, void* user_data)
+{
+    serial->dev.type = RT_Device_Class_Char;
+    serial->dev.rx_indicate = RT_NULL;
+    serial->dev.tx_complete = RT_NULL;
+
+#ifdef RT_USING_DEVICE_OPS
+    serial->dev.ops = &serial_ops;
+#else
+    serial->dev.init = RT_NULL;
+    serial->dev.open = RT_NULL;
+    serial->dev.close = RT_NULL;
+    serial->dev.read = _pin_read;
+    serial->dev.write = _pin_write;
+    serial->dev.control = _pin_control;
+#endif
+
+    serial->ops = ops;
+    serial->dev.user_data = user_data;
+
+    /* register a character device */
+    return rt_device_register(&serial->dev, name, flag);
 }
 
 #ifdef __cplusplus

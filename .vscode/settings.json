@@ -33,6 +33,8 @@
         "rtdevice.h": "c",
         "modules.h": "c",
         "rt_serial.h": "c",
-        "dataqueue.h": "c"
+        "dataqueue.h": "c",
+        "completion.h": "c",
+        "workqueue.h": "c"
     }
 }

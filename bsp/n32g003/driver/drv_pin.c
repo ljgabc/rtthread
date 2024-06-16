@@ -424,7 +424,6 @@ static struct rt_device_pin _n32g003_pin;
 int _n32g003_pin_init(void)
 {
     return rt_device_pin_register(&_n32g003_pin, "pin", &_n32g003_pin_ops, RT_NULL);
-	// return 0;
 }
 INIT_DEVICE_EXPORT(_n32g003_pin_init);
 

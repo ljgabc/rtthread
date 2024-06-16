@@ -12,6 +12,22 @@
 
 #include "config.h"
 
+#ifdef CONFIG_USE_RINGBUFFER
+#include "components/ipc/ringbuffer.h"
+#endif
+
+#ifdef CONFIG_USE_COMPLETION
+#include "components/ipc/completion.h"
+#endif
+
+#ifdef CONFIG_USE_WORKQUEUE
+#include "components/ipc/workqueue.h"
+#endif
+
+#ifdef CONFIG_USE_DATAQUEUE
+#include "components/ipc/dataqueue.h"
+#endif
+
 #if CONFIG_USE_DEVICE
 
 #ifdef CONFIG_USE_PIN
@@ -57,22 +73,5 @@
 #ifdef CONFIG_USE_WDT
 #include "components/device/rt_wdt.h"
 #endif
-
-#ifdef CONFIG_USE_RINGBUFFER
-#include "components/ipc/ringbuffer.h"
-#endif
-
-#ifdef CONFIG_USE_COMPLETION
-#include "components/ipc/completion.h"
-#endif
-
-#ifdef CONFIG_USE_WORKQUEUE
-#include "components/ipc/workqueue.h"
-#endif
-
-#ifdef CONFIG_USE_DATAQUEUE
-#include "components/ipc/dataqueue.h"
-#endif
-
 
 #endif

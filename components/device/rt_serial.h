@@ -38,6 +38,7 @@
 #pragma once
 #include "components/modules.h"
 #include "config.h"
+#include "rtdevice.h"
 #include "rtthread.h"
 
 #ifdef __cplusplus
@@ -195,10 +196,17 @@ struct rt_device_serial {
 
 void rt_hw_serial_isr(struct rt_device* dev, int event);
 
-rt_err_t rt_hw_serial_register(struct rt_serial_device* serial,
-    const char* name,
-    rt_uint32_t flag,
-    void* data);
+/**
+ * @brief 注册Serial设备
+ * 
+ * @param pin    Serial设备
+ * @param name   设备名称
+ * @param ops    设备操作符
+ * @param user_data 自定义数据
+ * @return 成功返回RT_EOK，其他见错误码
+ */
+rt_err_t rt_device_serial_register(struct rt_device_serial* serial, const char* name,
+    const struct rt_serial_ops* ops, rt_uint32_t flag, void* user_data);
 
 #ifdef __cplusplus
 }
