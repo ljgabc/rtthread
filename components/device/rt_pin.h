@@ -78,7 +78,7 @@ struct rt_pin_ops {
     void (*pin_write)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t val);
     rt_base_t (*pin_read)(const struct rt_device* dev, rt_base_t pin);
     rt_err_t (*pin_enable_irq)(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode,
-        void (*hdr)(void* args), const void* args);
+        void (*hdr)(void* args), void* args);
     void (*pin_disable_irq)(const struct rt_device* dev, rt_base_t pin);
 };
 
@@ -117,7 +117,7 @@ rt_base_t pin_read(const struct rt_device* dev, rt_base_t pin);
  * @return 成功返回RT_EOK，其他见错误码
  */
 rt_err_t pin_enable_irq(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode,
-    void (*hdr)(void* args), const void* args);
+    void (*hdr)(void* args), void* args);
 
 /**
  * @brief 取消引脚中断处理函数

@@ -24,8 +24,8 @@ struct rt_device_spi {
     struct rt_device dev;
     rt_err_t (*open)(const struct rt_device* dev, rt_base_t hz, rt_base_t mode);
     rt_base_t (*transfer_byte)(const struct rt_device* dev, rt_base_t val);
-    rt_size_t (*transfer)(const struct rt_device* dev, const rt_int8_t* tx_buffer, rt_size_t tx_length,
-        rt_int8_t* rx_buffer, rt_size_t rx_length);
+    rt_ssize_t (*transfer)(const struct rt_device* dev, const rt_int8_t* tx_buffer, rt_ssize_t tx_length,
+        rt_int8_t* rx_buffer, rt_ssize_t rx_length);
 };
 
 /**
@@ -69,8 +69,8 @@ rt_base_t spi_transfer_byte(const struct rt_device* dev, rt_base_t value);
  * @return The number of bytes written and read from the device. This is
  *      maximum of tx_length and rx_length.
  */
-rt_size_t spi_transfer(const struct rt_device* dev, const rt_int8_t* tx_buffer, rt_size_t tx_length,
-    rt_int8_t* rx_buffer, rt_size_t rx_length);
+rt_ssize_t spi_transfer(const struct rt_device* dev, const rt_int8_t* tx_buffer, rt_ssize_t tx_length,
+    rt_int8_t* rx_buffer, rt_ssize_t rx_length);
 
 #ifdef __cplusplus
 }

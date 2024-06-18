@@ -94,7 +94,7 @@ static void _thread_cleanup_execute(rt_thread_t thread)
     rt_hw_interrupt_enable(level);
 }
 
-void rt_thread_exit(void)
+static void rt_thread_exit(void)
 {
     struct rt_thread *thread;
     register rt_base_t level;
@@ -141,6 +141,8 @@ static rt_err_t _rt_thread_init(struct rt_thread *thread,
                                 rt_uint8_t        priority,
                                 rt_uint32_t       tick)
 {
+		(void)(name);
+	
     /* init thread list */
     rt_list_init(&(thread->tlist));
 
@@ -495,7 +497,7 @@ rt_err_t rt_thread_yield(void)
  *
  * @return RT_EOK
  */
-rt_err_t rt_thread_sleep(rt_tick_t tick)
+static rt_err_t rt_thread_sleep(rt_tick_t tick)
 {
     register rt_base_t temp;
     struct rt_thread *thread;

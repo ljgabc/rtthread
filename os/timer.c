@@ -143,7 +143,7 @@ rt_inline void _rt_timer_remove(rt_timer_t timer)
     }
 }
 
-#if RT_DEBUG_TIMER
+#ifdef RT_DEBUG_TIMER
 static int rt_timer_count_height(struct rt_timer *timer)
 {
     int i, cnt = 0;
@@ -603,7 +603,7 @@ rt_tick_t rt_timer_next_timeout_tick(void)
  * This function will check software-timer list, if a timeout event happens, the
  * corresponding timeout function will be invoked.
  */
-void rt_soft_timer_check(void)
+static void rt_soft_timer_check(void)
 {
     rt_tick_t current_tick;
     struct rt_timer *t;
@@ -678,7 +678,7 @@ void rt_soft_timer_check(void)
 }
 
 /* system timer thread entry */
-static void rt_thread_timer_entry(void *parameter)
+static __attribute__((noreturn)) void rt_thread_timer_entry(void *parameter)
 {
     rt_tick_t next_timeout;
 

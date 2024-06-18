@@ -36,8 +36,8 @@ extern "C" {
 struct rt_device_flash {
     struct rt_device dev;
     rt_err_t (*erase)(const struct rt_device* dev, rt_uint32_t start, rt_uint32_t end);
-    rt_err_t (*write)(const struct rt_device* dev, rt_uint32_t address, const rt_uint32_t* buf, rt_size_t size);
-    rt_err_t (*read)(const struct rt_device* dev, rt_uint32_t address, rt_uint32_t* buf, rt_size_t size);
+    rt_err_t (*write)(const struct rt_device* dev, rt_uint32_t address, const rt_uint32_t* buf, rt_ssize_t size);
+    rt_err_t (*read)(const struct rt_device* dev, rt_uint32_t address, rt_uint32_t* buf, rt_ssize_t size);
 };
 
 /**
@@ -54,14 +54,14 @@ rt_err_t flash_erase(const struct kk_drt_deviceev* dev, rt_uint32_t start, rt_ui
  *
  * @return 成功返回OK，其他见错误码
  */
-rt_err_t flash_write(const struct rt_device* dev, rt_uint32_t address, const rt_uint32_t* buf, rt_size_t size);
+rt_err_t flash_write(const struct rt_device* dev, rt_uint32_t address, const rt_uint32_t* buf, rt_ssize_t size);
 
 /**
  * @brief 读取Flash数据
  *
  * @return 成功返回OK，其他见错误码
  */
-rt_err_t flash_read(const struct rt_device* dev, rt_uint32_t address, rt_uint32_t* buf, rt_size_t size);
+rt_err_t flash_read(const struct rt_device* dev, rt_uint32_t address, rt_uint32_t* buf, rt_ssize_t size);
 
 #ifdef __cplusplus
 }

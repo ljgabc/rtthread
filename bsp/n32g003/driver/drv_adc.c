@@ -60,7 +60,7 @@ static const struct adc_desc adcs[] = {
  * @param channel 通道
  * @return 引脚描述结构体
  */
-rt_inline struct adc_desc* _get_adc(rt_base_t channel)
+rt_inline const struct adc_desc* _get_adc(rt_base_t channel)
 {
     if (channel == 0 || channel > 9) {
         return RT_NULL;
@@ -128,7 +128,7 @@ static rt_uint32_t n32g003_adc_read(const struct rt_device* dev, rt_base_t chann
     return ADC_Regular_Conversion_Data_Get();
 }
 
-rt_uint8_t n32g003_adc_get_resolution(struct rt_device* dev)
+rt_uint8_t n32g003_adc_get_resolution(const struct rt_device* dev)
 {
     return 12;
 }

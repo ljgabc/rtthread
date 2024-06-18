@@ -133,6 +133,6 @@ void SysTick_Handler(void)
 #endif
 
 #ifdef CONFIG_USE_I2C
-#include "mcu/n32g003/bsp/drv_i2c.c"
-#include "mcu/n32g003/library/n32g003_i2c.c"
+#include "bsp/n32g003/driver/drv_i2c.c"
+#include "bsp/n32g003/library/n32g003_i2c.c"
 #endif

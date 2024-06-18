@@ -109,7 +109,7 @@ static const struct gpio_desc gpios[] = {
  * @param pin 引脚编号
  * @return 引脚描述结构体
  */
-rt_inline struct gpio_desc* _get_gpio(int32_t pin)
+rt_inline const struct gpio_desc* _get_gpio(int32_t pin)
 {
     if (pin == 0 || pin >= 20) {
         return RT_NULL;
@@ -126,6 +126,9 @@ rt_inline struct gpio_desc* _get_gpio(int32_t pin)
 
 static void EXTI0_1_IRQHandler(void)
 {
+    /* enter interrupt */
+    rt_interrupt_enter();
+
     if (RESET != EXTI_Interrupt_Status_Get(EXTI_LINE0)) {
         EXTI_Interrupt_Status_Clear(EXTI_LINE0);
         if (gpio_isrs[0].isr != RT_NULL) {
@@ -139,10 +142,16 @@ static void EXTI0_1_IRQHandler(void)
             gpio_isrs[1].isr(gpio_isrs[1].arg);
         }
     }
+
+    /* leave interrupt */
+    rt_interrupt_leave();
 }
 
 static void EXTI2_3_IRQHandler(void)
 {
+    /* enter interrupt */
+    rt_interrupt_enter();
+
     if (RESET != EXTI_Interrupt_Status_Get(EXTI_LINE2)) {
         EXTI_Interrupt_Status_Clear(EXTI_LINE2);
         if (gpio_isrs[2].isr != RT_NULL) {
@@ -156,10 +165,16 @@ static void EXTI2_3_IRQHandler(void)
             gpio_isrs[3].isr(gpio_isrs[3].arg);
         }
     }
+
+    /* leave interrupt */
+    rt_interrupt_leave();
 }
 
 static void EXTI4_17_IRQHandler(void)
 {
+    /* enter interrupt */
+    rt_interrupt_enter();
+
     if (RESET != EXTI_Interrupt_Status_Get(EXTI_LINE4)) {
         EXTI_Interrupt_Status_Clear(EXTI_LINE4);
         if (gpio_isrs[4].isr != RT_NULL) {
@@ -257,6 +272,9 @@ static void EXTI4_17_IRQHandler(void)
             gpio_isrs[17].isr(gpio_isrs[17].arg);
         }
     }
+
+    /* leave interrupt */
+    rt_interrupt_leave();
 }
 
 static rt_err_t n32g003_pin_mode(const struct rt_device* device, rt_base_t pin, rt_uint8_t mode)
@@ -332,7 +350,7 @@ static rt_base_t n32g003_pin_read(const struct rt_device* device, rt_base_t pin)
 }
 
 static rt_err_t n32g003_pin_enable_irq(const struct rt_device* dev, rt_base_t pin,
-    rt_uint8_t mode, void (*hdr)(void* args), const void* args)
+    rt_uint8_t mode, void (*hdr)(void* args), void* args)
 {
     const struct gpio_desc* gpio = _get_gpio(pin);
     if (!gpio) {

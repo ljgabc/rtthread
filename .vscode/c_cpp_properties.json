@@ -1,7 +1,6 @@
 {
     "configurations": [
         {
-            // "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include",
@@ -12,7 +11,10 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
-            ]
+            ],
+            "intelliSenseMode": "windows-gcc-arm",
+            "cStandard": "c99",
+            "cppStandard": "c++11"
         }
     ],
     "version": 4

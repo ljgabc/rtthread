@@ -45,7 +45,7 @@ struct rt_device_adc {
 struct rt_adc_ops {
     rt_err_t (*enable)(const struct rt_device *dev, rt_base_t channel, rt_base_t mode);
     rt_uint32_t (*read)(const struct rt_device* dev, rt_base_t channel);
-    rt_uint8_t (*get_resolution)(struct rt_device *dev);
+    rt_uint8_t (*get_resolution)(const struct rt_device *dev);
 };
 
 

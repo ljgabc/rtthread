@@ -81,6 +81,7 @@ typedef rt_base_t                       rt_err_t;       /**< Type for error numb
 typedef rt_uint32_t                     rt_time_t;      /**< Type for time stamp */
 typedef rt_uint32_t                     rt_tick_t;      /**< Type for tick count */
 typedef rt_base_t                       rt_flag_t;      /**< Type for flags */
+typedef rt_base_t                       rt_ssize_t;      /**< Type for size number */
 typedef rt_ubase_t                      rt_size_t;      /**< Type for size number */
 typedef rt_ubase_t                      rt_dev_t;       /**< Type for device */
 typedef rt_base_t                       rt_off_t;       /**< Type for offset */
@@ -185,7 +186,7 @@ typedef int (*init_fn_t)(void);
 #ifdef _MSC_VER /* we do not support MS VC++ compiler */
     #define INIT_EXPORT(fn, level)
 #else
-    #if RT_DEBUG_INIT
+    #ifdef RT_DEBUG_INIT
         struct rt_init_desc
         {
             const char* fn_name;
@@ -824,8 +825,8 @@ struct rt_device_ops
     rt_err_t  (*init)   (rt_device_t dev);
     rt_err_t  (*open)   (rt_device_t dev, rt_uint16_t oflag);
     rt_err_t  (*close)  (rt_device_t dev);
-    rt_size_t (*read)   (rt_device_t dev, rt_off_t pos, void *buffer, rt_size_t size);
-    rt_size_t (*write)  (rt_device_t dev, rt_off_t pos, const void *buffer, rt_size_t size);
+    rt_ssize_t(*read)   (rt_device_t dev, rt_off_t pos, void *buffer, rt_ssize_t size);
+    rt_ssize_t(*write)  (rt_device_t dev, rt_off_t pos, const void *buffer, rt_ssize_t size);
     rt_err_t  (*control)(rt_device_t dev, int cmd, void *args);
     rt_err_t  (*flush)  (rt_device_t dev);
 };
@@ -845,7 +846,7 @@ struct rt_device
     rt_uint8_t                device_id;                /**< 0 - 255 */
 
     /* device call back */
-    rt_err_t (*rx_indicate)(rt_device_t dev, rt_size_t size);
+    rt_err_t (*rx_indicate)(rt_device_t dev, rt_ssize_t size);
     rt_err_t (*tx_complete)(rt_device_t dev, void *buffer);
 
 #ifdef RT_USING_DEVICE_OPS
@@ -855,8 +856,8 @@ struct rt_device
     rt_err_t  (*init)   (rt_device_t dev);
     rt_err_t  (*open)   (rt_device_t dev, rt_uint16_t oflag);
     rt_err_t  (*close)  (rt_device_t dev);
-    rt_size_t (*read)   (rt_device_t dev, rt_off_t pos, void *buffer, rt_size_t size);
-    rt_size_t (*write)  (rt_device_t dev, rt_off_t pos, const void *buffer, rt_size_t size);
+    rt_ssize_t(*read)   (rt_device_t dev, rt_off_t pos, void *buffer, rt_ssize_t size);
+    rt_ssize_t(*write)  (rt_device_t dev, rt_off_t pos, const void *buffer, rt_ssize_t size);
     rt_err_t  (*control)(rt_device_t dev, int cmd, void *args);
 #endif
 

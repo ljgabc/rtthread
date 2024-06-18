@@ -48,7 +48,7 @@ rt_err_t flash_erase(const struct rt_device* dev, rt_uint32_t start, rt_uint32_t
  *
  * @return 成功返回OK，其他见错误码
  */
-rt_err_t flash_write(const struct rt_device* dev, rt_uint32_t address, const rt_uint32_t* buf, rt_size_t size)
+rt_err_t flash_write(const struct rt_device* dev, rt_uint32_t address, const rt_uint32_t* buf, rt_ssize_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_flash* flash_dev = (struct rt_device_flash*)dev;
@@ -60,7 +60,7 @@ rt_err_t flash_write(const struct rt_device* dev, rt_uint32_t address, const rt_
  *
  * @return 成功返回OK，其他见错误码
  */
-rt_err_t flash_read(const struct rt_device* dev, rt_uint32_t address, rt_uint32_t* buf, rt_size_t size)
+rt_err_t flash_read(const struct rt_device* dev, rt_uint32_t address, rt_uint32_t* buf, rt_ssize_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_flash* flash_dev = (struct rt_device_flash*)dev;

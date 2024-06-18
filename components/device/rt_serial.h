@@ -117,8 +117,8 @@ extern "C" {
 #define RT_SERIAL_FLOWCONTROL_CTSRTS 1
 #define RT_SERIAL_FLOWCONTROL_NONE 0
 
-typedef rt_size_t (*cb_serial_tx)(struct rt_device* dev, const rt_uint8_t* data, rt_size_t length);
-typedef rt_size_t (*cb_serial_rx)(struct rt_device* dev, rt_uint8_t* data, rt_size_t length);
+typedef rt_ssize_t (*cb_serial_tx)(struct rt_device* dev, const rt_uint8_t* data, rt_ssize_t length);
+typedef rt_ssize_t (*cb_serial_rx)(struct rt_device* dev, rt_uint8_t* data, rt_ssize_t length);
 
 struct serial_configure {
     rt_uint32_t baud_rate;
@@ -150,7 +150,7 @@ struct rt_serial_ops {
 
 #ifdef CONFIG_SERIAL_USE_DMA_TX
     rt_bool_t (*is_dma_txing)(struct rt_device* dev);
-    void (*start_dma_tx)(struct rt_device* dev, rt_uint8_t* buf, rt_size_t size);
+    void (*start_dma_tx)(struct rt_device* dev, rt_uint8_t* buf, rt_ssize_t size);
     void (*stop_dma_tx)(struct rt_device* dev);
 #endif
 
@@ -176,7 +176,7 @@ struct rt_device_serial {
     void* serial_tx;
 
 #ifdef CONFIG_SERIAL_USE_DMA_RX
-    rt_size_t dma_idx_rx;
+    rt_ssize_t dma_idx_rx;
     rt_uint8_t serial_dma_rx[CONFIG_SERIAL_DMA_RX_BUFSZ];
 #endif
 

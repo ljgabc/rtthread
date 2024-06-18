@@ -922,6 +922,9 @@ rt_err_t rt_mutex_release(rt_mutex_t mutex)
  */
 rt_err_t rt_mutex_control(rt_mutex_t mutex, int cmd, void *arg)
 {
+		(void)(arg);
+		(void)(cmd);
+	
     /* parameter check */
     RT_ASSERT(mutex != RT_NULL);
     RT_ASSERT(rt_object_get_type(&mutex->parent.parent) == RT_Object_Class_Mutex);
@@ -2452,6 +2455,8 @@ rt_err_t rt_mq_control(rt_mq_t mq, int cmd, void *arg)
 {
     rt_ubase_t level;
     struct rt_mq_message *msg;
+	
+		(void)(arg);
 
     /* parameter check */
     RT_ASSERT(mq != RT_NULL);

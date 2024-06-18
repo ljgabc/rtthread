@@ -286,10 +286,10 @@ rt_err_t rt_device_close(rt_device_t dev)
  *
  * @note since 0.4.0, the unit of size/pos is a block for block device.
  */
-rt_size_t rt_device_read(rt_device_t dev,
+rt_ssize_t rt_device_read(rt_device_t dev,
     rt_off_t pos,
     void* buffer,
-    rt_size_t size)
+    rt_ssize_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     RT_ASSERT(rt_object_get_type(&dev->parent) == RT_Object_Class_Device);
@@ -324,10 +324,10 @@ rt_size_t rt_device_read(rt_device_t dev,
  *
  * @note since 0.4.0, the unit of size/pos is a block for block device.
  */
-rt_size_t rt_device_write(rt_device_t dev,
+rt_ssize_t rt_device_write(rt_device_t dev,
     rt_off_t pos,
     const void* buffer,
-    rt_size_t size)
+    rt_ssize_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     RT_ASSERT(rt_object_get_type(&dev->parent) == RT_Object_Class_Device);
@@ -383,7 +383,7 @@ rt_err_t rt_device_control(rt_device_t dev, int cmd, void* arg)
  */
 rt_err_t
 rt_device_set_rx_indicate(rt_device_t dev,
-    rt_err_t (*rx_ind)(rt_device_t dev, rt_size_t size))
+    rt_err_t (*rx_ind)(rt_device_t dev, rt_ssize_t size))
 {
     RT_ASSERT(dev != RT_NULL);
     RT_ASSERT(rt_object_get_type(&dev->parent) == RT_Object_Class_Device);

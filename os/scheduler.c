@@ -33,8 +33,8 @@
 #include <rtthread.h>
 #include <rthw.h>
 
-rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
-rt_uint32_t rt_thread_ready_priority_group;
+static rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
+static rt_uint32_t rt_thread_ready_priority_group;
 
 #if RT_THREAD_PRIORITY_MAX > 32
 /* Maximum priority level, 256 */
@@ -44,8 +44,8 @@ rt_uint8_t rt_thread_ready_table[32];
 
 extern volatile rt_uint8_t rt_interrupt_nest;
 static rt_int16_t rt_scheduler_lock_nest;
-struct rt_thread *rt_current_thread = RT_NULL;
-rt_uint8_t rt_current_priority;
+static struct rt_thread *rt_current_thread = RT_NULL;
+static rt_uint8_t rt_current_priority;
 
 
 rt_list_t rt_thread_defunct;

@@ -88,7 +88,7 @@ void rt_ringbuffer_destroy(struct rt_ringbuffer* rb);
 rt_inline rt_uint32_t rt_ringbuffer_get_size(struct rt_ringbuffer* rb)
 {
     RT_ASSERT(rb != RT_NULL);
-    return rb->buffer_size;
+    return (rt_uint32_t)(rb->buffer_size);
 }
 
 /** return the size of empty space in rb */

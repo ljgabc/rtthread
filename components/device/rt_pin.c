@@ -64,7 +64,7 @@ rt_base_t pin_read(const struct rt_device* dev, rt_base_t pin)
  * @return 成功返回RT_EOK，其他见错误码
  */
 rt_err_t pin_enable_irq(const struct rt_device* dev, rt_base_t pin, rt_uint8_t mode,
-    void (*hdr)(void* args), const void* args)
+    void (*hdr)(void* args), void* args)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_pin* pin_dev = (struct rt_device_pin*)dev;
@@ -92,14 +92,14 @@ void pin_disable_irq(const struct rt_device* dev, rt_base_t pin)
  * @param size  缓冲区大小
  * @return size 
  */
-static rt_size_t _pin_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size)
+static rt_ssize_t _pin_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_ssize_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_pin* pin_dev = (struct rt_device_pin*)dev;
 
     rt_base_t pin = pos;
 
-    for (rt_size_t i = 0; i < size; i++) {
+    for (rt_ssize_t i = 0; i < size; i++) {
         ((rt_base_t*)buffer)[i] = pin_read(dev, pin);
     }
 
@@ -115,7 +115,7 @@ static rt_size_t _pin_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_
  * @param size      缓冲区大小
  * @return size 
  */
-static rt_size_t _pin_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_size_t size)
+static rt_ssize_t _pin_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_ssize_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_pin* pin_dev = (struct rt_device_pin*)dev;
@@ -123,7 +123,7 @@ static rt_size_t _pin_write(rt_device_t dev, rt_off_t pos, const void* buffer, r
     rt_base_t pin = pos;
     rt_uint8_t val;
 
-    for (rt_size_t i = 0; i < size; i++) {
+    for (rt_ssize_t i = 0; i < size; i++) {
         val = ((rt_base_t*)buffer)[i];
         pin_write(dev, pin, (val == 0) ? PIN_LOW : PIN_HIGH);
     }
@@ -173,6 +173,7 @@ const static struct rt_device_ops pin_ops = {
  */
 rt_err_t rt_device_pin_register(struct rt_device_pin* pin, const char* name, const struct rt_pin_ops* ops, void* user_data)
 {
+    RT_ASSERT(pin != RT_NULL);
     pin->dev.type = RT_Device_Class_Pin;
     pin->dev.rx_indicate = RT_NULL;
     pin->dev.tx_complete = RT_NULL;

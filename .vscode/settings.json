@@ -35,6 +35,10 @@
         "rt_serial.h": "c",
         "dataqueue.h": "c",
         "completion.h": "c",
-        "workqueue.h": "c"
+        "workqueue.h": "c",
+        "rt_tim.h": "c",
+        "rt_flash.h": "c",
+        "rtservice.h": "c",
+        "system_n32g003.h": "c"
     }
 }
