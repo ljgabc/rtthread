@@ -58,6 +58,7 @@ static rt_err_t n32g003_uart_init(struct rt_device* dev)
 #endif
 
         io_init_struct.GPIO_Mode = GPIO_MODE_INPUT;
+        io_init_struct.GPIO_Pull = GPIO_PULL_UP;
 #if defined(CONFIG_N32G003_UART1_RX_PA3)
         io_init_struct.Pin = GPIO_PIN_13;
         io_init_struct.GPIO_Alternate = GPIO_AF5_UART1;
@@ -104,6 +105,7 @@ static rt_err_t n32g003_uart_init(struct rt_device* dev)
 #endif
 
         io_init_struct.GPIO_Mode = GPIO_MODE_INPUT;
+        io_init_struct.GPIO_Pull = GPIO_PULL_UP;
 #if defined(CONFIG_N32G003_UART2_RX_PA1)
         io_init_struct.Pin = GPIO_PIN_1;
         io_init_struct.GPIO_Alternate = GPIO_AF1_UART2;

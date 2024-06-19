@@ -10,6 +10,10 @@ config BSP_TEMPLATE
 config BSP_N32G003
      bool "n32g003 support"
 
+config BSP_N32G430
+     bool "n32g430 support"
+
 endchoice
 
 orsource "n32g003/Kconfig"
+orsource "n32g430/Kconfig"

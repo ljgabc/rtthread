@@ -4,10 +4,6 @@
  * @brief ADC控制通用接口
  * @version 0.1
  * @date 2023-04-25
- * @note 使用说明
- *  struct kk_dev* dev = device_find("ADC");
- *  adc_open(dev, 0, 0);
- *  uint32_t ret = adc_read(dev, 0);
  * 
  * @copyright Copyright (c) 2023
  *

@@ -1,5 +1,5 @@
 /**
- * @file kk_pwm.h
+ * @file rt_pwm.h
  * @author ljgabc (ljgabc@gmail.com)
  * @brief PWM控制通用接口
  * @version 0.1

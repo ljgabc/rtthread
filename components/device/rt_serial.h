@@ -1,5 +1,5 @@
 /**
- * @file kk_serial.h
+ * @file rt_serial.h
  * @author ljgabc (ljgabc@gmail.com)
  * @brief 串口控制通用接口
  * @version 0.1
@@ -37,8 +37,6 @@
  */
 #pragma once
 #include "components/modules.h"
-#include "config.h"
-#include "rtdevice.h"
 #include "rtthread.h"
 
 #ifdef __cplusplus

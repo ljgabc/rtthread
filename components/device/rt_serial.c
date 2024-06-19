@@ -1,5 +1,5 @@
 /**
- * @file kk_serial.c
+ * @file rt_serial.c
  * @author ljgabc (ljgabc@gmail.com)
  * @brief 串口控制通用接口
  * @version 0.1

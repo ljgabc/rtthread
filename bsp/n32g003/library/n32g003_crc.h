@@ -82,7 +82,7 @@
 /*** CRC Driving Functions Declaration ***/
 uint16_t CRC16_Calculate(uint8_t data);
 uint16_t CRC16_Buffer_Calculate(uint8_t p_buf[], uint32_t buf_len);
-void CRC16_Set(uint8_t data);
+void CRC16_Set(uint16_t data);
 uint16_t CRC16_Get(void);
 void CRC16_Little_Endian_Format_Set(void);
 void CRC16_Big_Endian_Format_Set(void);

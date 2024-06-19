@@ -5,11 +5,17 @@ choice
      prompt "soc"
      default SOC_N32G003F5S7
 
-config SOC_N32G003F5Q7
-     bool "use n32g003f5q7 QFN20"
+config SOC_N32G003F4S7
+     bool "use n32g003f4s7, TSSOP20, 16K ROM, 3K RAM"
+
+config SOC_N32G003F4Q7
+     bool "use n32g003f4q7, QFN20, 16K ROM, 3K RAM"
 
 config SOC_N32G003F5S7
-     bool "use n32g003f5s7 TSSOP20"
+     bool "use n32g003f5s7, TSSOP20, 29.5K ROM, 3K RAM"
+
+config SOC_N32G003F5Q7
+     bool "use n32g003f5q7, QFN20, 29.5K ROM, 3K RAM"
 
 endchoice
 
@@ -55,7 +61,7 @@ config BSP_UART2
      default n
 
 choice
-    prompt "UART1 TX PIN"
+    prompt "UART2 TX PIN"
     depends on BSP_UART2
 
 config N32G003_UART2_TX_PA2
@@ -69,7 +75,7 @@ config N32G003_UART2_TX_PA9
 endchoice
 
 choice
-    prompt "UART1 RX PIN"
+    prompt "UART2 RX PIN"
     depends on BSP_UART2
 
 config N32G003_UART2_RX_PA1
@@ -88,7 +94,7 @@ config BSP_I2C1
      default n
 
 choice
-    prompt "I2C SCL PIN"
+    prompt "I2C1 SCL PIN"
     depends on BSP_I2C1
     default N32G003_I2C1_SCL_PA4
     
@@ -104,7 +110,7 @@ config N32G003_I2C1_SCL_PA9
 endchoice
 
 choice
-    prompt "I2C SDA PIN"
+    prompt "I2C1 SDA PIN"
     depends on BSP_I2C1
     default N32G003_I2C1_SDA_PA5
     
@@ -121,5 +127,306 @@ config N32G003_I2C1_SDA_PA8
      bool "Use PA8 as I2C1 SCL"
 
 endchoice
+
+config BSP_SPI1
+     bool "SPI1 Support"
+     depends on USE_SPI
+     default n
+
+config BSP_SPI1_SOFT_NSS
+     bool "Use Soft Nss for SPI1"
+     depends on BSP_SPI1
+     default y
+
+choice
+    prompt "SPI1 NSS PIN"
+    depends on BSP_SPI1 && !BSP_SPI1_SOFT_NSS
+    default N32G003_SPI1_NSS_PA3
+    
+config N32G003_SPI1_NSS_PA3
+     bool "Use PA3 as SPI1 NSS"
+
+config N32G003_SPI1_NSS_PA8
+     bool "Use PA8 as SPI1 NSS"
+
+endchoice
+
+choice
+    prompt "SPI1 SCK PIN"
+    depends on BSP_SPI1
+    default N32G003_SPI1_SCK_PA14
+    
+config N32G003_SPI1_SCK_PA14
+     bool "Use PA14 as SPI1 SCK"
+
+config N32G003_SPI1_SCK_PA15
+     bool "Use PA15 as SPI1 SCK"
+
+endchoice
+
+choice
+    prompt "SPI1 MISO PIN"
+    depends on BSP_SPI1
+    default N32G003_SPI1_MISO_PA7
+    
+config N32G003_SPI1_MISO_PA7
+     bool "Use PA7 as SPI1 MISO"
+
+config N32G003_SPI1_MISO_PB0
+     bool "Use PB0 as SPI1 MISO"
+
+endchoice
+
+choice
+    prompt "SPI1 MOSI PIN"
+    depends on BSP_SPI1
+    default N32G003_SPI1_MOSI_PA6
+    
+config N32G003_SPI1_MOSI_PA6
+     bool "Use PA6 as SPI1 MOSI"
+
+config N32G003_SPI1_MOSI_PB1
+     bool "Use PB1 as SPI1 MOSI"
+
+endchoice
+
+config BSP_TIM1
+     bool "TIM1 Support"
+     depends on USE_TIM || USE_PWM
+     default n
+
+choice
+    prompt "TIM1 CH1 PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH1_PA6
+    
+config N32G003_TIM1_CH1_PA6
+     bool "Use PA6 as TIM1 CH1"
+
+config N32G003_TIM1_CH1_PA11
+     bool "Use PA11 as TIM1 CH1"
+
+config N32G003_TIM1_CH1_PB0
+     bool "Use PB0 as TIM1 CH1"
+
+endchoice
+
+choice
+    prompt "TIM1 CH2 PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH2_PA7
+    
+config N32G003_TIM1_CH2_PA7
+     bool "Use PA7 as TIM1 CH2"
+
+config N32G003_TIM1_CH2_PA12
+     bool "Use PA12 as TIM1 CH2"
+
+config N32G003_TIM1_CH2_PA14
+     bool "Use PA14 as TIM1 CH2"
+
+config N32G003_TIM1_CH2_PA15
+     bool "Use PA15 as TIM1 CH2"
+
+endchoice
+
+choice
+    prompt "TIM1 CH3 PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH3_PA1
+    
+config N32G003_TIM1_CH3_PA1
+     bool "Use PA1 as TIM1 CH3"
+
+config N32G003_TIM1_CH3_PA7
+     bool "Use PA7 as TIM1 CH3"
+
+config N32G003_TIM1_CH3_PA10
+     bool "Use PA10 as TIM1 CH3"
+
+config N32G003_TIM1_CH3_PA11
+     bool "Use PA11 as TIM1 CH3"
+
+endchoice
+
+choice
+    prompt "TIM1 CH4 PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH4_PA3
+    
+config N32G003_TIM1_CH4_PA3
+     bool "Use PA3 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA6
+     bool "Use PA6 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA7
+     bool "Use PA7 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA8
+     bool "Use PA8 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA10
+     bool "Use PA10 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA11
+     bool "Use PA11 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA12
+     bool "Use PA12 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA13
+     bool "Use PA13 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA14
+     bool "Use PA14 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PA15
+     bool "Use PA15 as TIM1 CH4"
+
+config N32G003_TIM1_CH4_PB1
+     bool "Use PB1 as TIM1 CH4"
+
+endchoice
+
+choice
+    prompt "TIM1 CH1N PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH1N_PA5
+    
+config N32G003_TIM1_CH1N_PA5
+     bool "Use PA5 as TIM1 CH1N"
+
+config N32G003_TIM1_CH1N_PA11
+     bool "Use PA11 as TIM1 CH1N"
+
+config N32G003_TIM1_CH1N_PA13
+     bool "Use PA13 as TIM1 CH1N"
+
+endchoice
+
+choice
+    prompt "TIM1 CH2N PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH2N_PA6
+    
+config N32G003_TIM1_CH2N_PA6
+     bool "Use PA6 as TIM1 CH2N"
+
+config N32G003_TIM1_CH2N_PA12
+     bool "Use PA12 as TIM1 CH2N"
+
+config N32G003_TIM1_CH2N_PA13
+     bool "Use PA13 as TIM1 CH2N"
+
+endchoice
+
+choice
+    prompt "TIM1 CH3N PIN"
+    depends on BSP_TIM1
+    default N32G003_TIM1_CH3N_PA2
+    
+config N32G003_TIM1_CH3N_PA2
+     bool "Use PA2 as TIM1 CH3N"
+
+config N32G003_TIM1_CH3N_PA3
+     bool "Use PA3 as TIM1 CH3N"
+
+config N32G003_TIM1_CH3N_PA4
+     bool "Use PA4 as TIM1 CH3N"
+
+config N32G003_TIM1_CH3N_PA10
+     bool "Use PA10 as TIM1 CH3N"
+
+endchoice
+
+config BSP_TIM3
+     bool "TIM3 Support"
+     depends on USE_TIM || USE_PWM
+     default n
+
+choice
+    prompt "TIM3 CH1 PIN"
+    depends on BSP_TIM3
+    default N32G003_TIM3_CH1_PA1
+    
+config N32G003_TIM3_CH1_PA1
+     bool "Use PA1 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA3
+     bool "Use PA3 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA6
+     bool "Use PA6 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA7
+     bool "Use PA7 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA10
+     bool "Use PA10 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA11
+     bool "Use PA11 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA12
+     bool "Use PA12 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA13
+     bool "Use PA13 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA14
+     bool "Use PA14 as TIM3 CH1"
+
+config N32G003_TIM3_CH1_PA15
+     bool "Use PA15 as TIM3 CH1"
+
+endchoice
+
+choice
+    prompt "TIM3 CH2 PIN"
+    depends on BSP_TIM3
+    default N32G003_TIM3_CH2_PA2
+    
+config N32G003_TIM3_CH2_PA2
+     bool "Use PA2 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA3
+     bool "Use PA3 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA6
+     bool "Use PA6 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA7
+     bool "Use PA7 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA10
+     bool "Use PA10 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA11
+     bool "Use PA11 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA12
+     bool "Use PA12 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA13
+     bool "Use PA13 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA14
+     bool "Use PA14 as TIM3 CH2"
+
+config N32G003_TIM3_CH2_PA15
+     bool "Use PA15 as TIM3 CH2"
+
+endchoice
+
+config BSP_TIM6
+     bool "TIM6 Support"
+     depends on USE_TIM || USE_PWM
+     default n
+
+config BSP_CRC
+     bool "CRC16 Modbus Support"
+     depends on USE_CRC
+     default n
 
 endmenu

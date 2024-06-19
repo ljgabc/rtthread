@@ -1,5 +1,5 @@
 /**
- * @file kk_spi.h
+ * @file rt_spi.h
  * @author ljgabc (ljgabc@gmail.com)
  * @brief SPI控制通用接口
  * @version 0.1

@@ -4,19 +4,6 @@
  * @brief Flash读写接口
  * @version 0.1
  * @date 2023-04-25
- * @note 使用说明
- * 
- *  // 打开Flash设备
- *  struct kk_dev* dev = device_find("FLASH");
- *  
- *  // 擦除从0x1000到0x2000之间的数据
- *  flash_erase(dev, 0x1000, 0x2000);
- *  
- *  // 向0x1000写入数据
- *  flash_write(dev, 0x1000, buf, 128);
- * 
- *  // 从0x1000读出数据
- *  flash_read(dev, 0x1000, buf, 128);
  *
  * @copyright Copyright (c) 2023
  *

@@ -1,5 +1,5 @@
 /**
- * @file kk_tim.c
+ * @file rt_tim.c
  * @author ljgabc (ljgabc@gmail.com)
  * @brief 硬件定时器接口
  * @version 0.1

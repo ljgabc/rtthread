@@ -103,10 +103,10 @@ uint16_t CRC16_Buffer_Calculate(uint8_t p_buf[], uint32_t buf_len)
 *\*\          - 8-bit data value to be writed in the 16-bit CRC Data register
 *\*\return  none
 **/
-void CRC16_Set(uint8_t data)
+void CRC16_Set(uint16_t data)
 {
     /* Writes 8-bit data to the CRC16DAT register */
-    CRC->CRC16DAT = data;
+    CRC->CRC16D = data;
 }
 
 /**
@@ -118,7 +118,7 @@ void CRC16_Set(uint8_t data)
 uint16_t CRC16_Get(void)
 {
     /* Returns the CRC16 calculation result */
-    return (CRC->CRC16D);
+    return (CRC->CRC16DAT);
 }
 
 /**

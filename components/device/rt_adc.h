@@ -4,10 +4,6 @@
  * @brief ADC控制通用接口
  * @version 0.1
  * @date 2023-04-25
- * @note 使用说明
- *  struct kk_dev* dev = device_find("ADC");
- *  adc_open(dev, 0, 0);
- *  uint32_t ret = adc_read(dev, 0);
  *
  * @copyright Copyright (c) 2023
  *
@@ -82,7 +78,7 @@ rt_uint8_t adc_get_resolution(const struct rt_device* dev);
  * @param user_data 自定义数据
  * @return 成功返回RT_EOK，其他见错误码
  */
-rt_err_t rt_device_adc_register(struct rt_device_adc* pin, const char* name, const struct rt_adc_ops* ops, void* user_data);
+rt_err_t rt_device_adc_register(struct rt_device_adc* adc, const char* name, const struct rt_adc_ops* ops, void* user_data);
 
 #ifdef __cplusplus
 }

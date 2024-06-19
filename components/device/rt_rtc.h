@@ -1,13 +1,13 @@
 /**
- * @file kk_rtc.h
+ * @file rt_rtc.h
  * @author ljgabc (ljgabc@gmail.com)
- * @brief 看门狗接口
+ * @brief RTC接口
  * @version 0.1
  * @date 2023-04-25
  * @note 使用说明
  * 
  *  // 获取RTC设备
- *  struct kk_dev* dev = device_find("RTC");
+ *  struct rt_device* dev = device_find("rtc");
  * 
  *  // 设置日期
  *  rtc_set_data(dev, 2023, 4, 25);
@@ -18,7 +18,7 @@
  *  // 获取时间
  *  uint32_t time = rtc_timestamp(dev);
  *  // 获取结构化时间
- *  struct kk_time_t time;
+ *  struct rt_time_t time;
  *  rtc_time(dev, &time);
  *
  * @copyright Copyright (c) 2023

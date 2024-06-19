@@ -1,5 +1,5 @@
 /**
- * @file kk_pin.c
+ * @file rt_pin.c
  * @author ljgabc (ljgabc@gmail.com)
  * @brief GPIO控制通用接口
  * @version 0.1

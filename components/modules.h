@@ -62,6 +62,10 @@
 #include "components/device/rt_rtc.h"
 #endif
 
+#ifdef CONFIG_USE_CRC
+#include "components/device/rt_crc.h"
+#endif
+
 #ifdef CONFIG_USE_SPI
 #include "components/device/rt_spi.h"
 #endif

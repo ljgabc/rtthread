@@ -1,5 +1,5 @@
 /**
- * @file kk_i2c.h
+ * @file rt_i2c.h
  * @author ljgabc (ljgabc@gmail.com)
  * @brief I2C控制通用接口
  * @version 0.1

@@ -1,0 +1,317 @@
+menu "bsp n32g430 configuration"
+     depends on BSP_N32G430
+
+choice
+     prompt "soc"
+     default SOC_N32G430F6S7
+
+config SOC_N32G430F6S7
+     bool "use n32g430f6s7, TSSOP20, 32K ROM, 16K RAM"
+
+config SOC_N32G430F6S7-1
+     bool "use n32g430f6s7-1, TSSOP20, 32K ROM, 16K RAM"
+
+config SOC_N32G430F8S7
+     bool "use n32g430f8s7, TSSOP20, 64K ROM, 16K RAM"
+
+config SOC_N32G430F8S7-1
+     bool "use n32g430f8s7-1, TSSOP20, 64K ROM, 16K RAM"
+
+config SOC_N32G430F6Q7
+     bool "use n32g430f6q7, QFN20, 32K ROM, 16K RAM"
+
+config SOC_N32G430F8Q7
+     bool "use n32g430f8q7, QFN20, 64K ROM, 16K RAM"
+
+config SOC_N32G430G6Q7
+     bool "use n32g430g6q7, QFN28, 32K ROM, 16K RAM"
+
+config SOC_N32G430G8Q7
+     bool "use n32g430g8q7, QFN28, 64K ROM, 16K RAM"
+
+config SOC_N32G430K6Q7
+     bool "use n32g430k6q7, QFN32, 32K ROM, 16K RAM"
+
+config SOC_N32G430K6L7
+     bool "use n32g430k6l7, LQFP32, 32K ROM, 16K RAM"
+
+config SOC_N32G430K8Q7
+     bool "use n32g430k8q7, QFN32, 64K ROM, 16K RAM"
+
+config SOC_N32G430K8L7
+     bool "use n32g430k8l7, LQFP32, 64K ROM, 16K RAM"
+
+config SOC_N32G430C6Q7
+     bool "use n32g430c6q7, QFN48, 32K ROM, 16K RAM"
+
+config SOC_N32G430C6L7
+     bool "use n32g430c6l7, LQFP48, 32K ROM, 16K RAM"
+
+config SOC_N32G430C8Q7
+     bool "use n32g430c8q7, QFN48, 64K ROM, 16K RAM"
+
+config SOC_N32G430C8L7
+     bool "use n32g430c8l7, LQFP48, 64K ROM, 16K RAM"
+
+endchoice
+
+config BSP_UART1
+     bool "Uart1 Support"
+     depends on USE_SERIAL
+     default n
+
+choice
+    prompt "UART1 TX PIN"
+    depends on BSP_UART1
+    default N32G430_UART1_TX_PA4
+    
+config N32G430_UART1_TX_PA4
+     bool "Use PA4 as UART1 TX"
+
+config N32G430_UART1_TX_PA9
+     bool "Use PA9 as UART1 TX"
+
+config N32G430_UART1_TX_PB6
+     bool "Use PB6 as UART1 TX"
+
+config N32G430_UART1_TX_PB8
+     bool "Use PB8 as UART1 TX"
+
+endchoice
+
+choice
+    prompt "UART1 RX PIN"
+    depends on BSP_UART1
+    default N32G430_UART1_RX_PA5
+
+config N32G430_UART1_RX_PA5
+     bool "Use PA5 as UART1 RX"
+
+config N32G430_UART1_RX_PA10
+     bool "Use PA10 as UART1 RX"
+
+config N32G430_UART1_RX_PB7
+     bool "Use PB7 as UART1 RX"
+endchoice
+
+config BSP_UART2
+     bool "Uart2 Support"
+     depends on USE_SERIAL
+     default n
+
+choice
+    prompt "UART2 TX PIN"
+    depends on BSP_UART2
+    default N32G430_UART2_TX_PA2
+
+config N32G430_UART2_TX_PA2
+     bool "Use PA2 as UART2 TX"
+
+config N32G430_UART2_TX_PA6
+     bool "Use PA6 as UART2 TX"
+
+config N32G430_UART2_TX_PB4
+     bool "Use PB4 as UART2 TX"
+
+config N32G430_UART2_TX_PD14
+     bool "Use PD14 as UART2 TX"
+
+endchoice
+
+choice
+    prompt "UART2 RX PIN"
+    depends on BSP_UART2
+    default N32G430_UART2_RX_PA3
+
+config N32G430_UART2_RX_PA3
+     bool "Use PA3 as UART2 RX"
+
+config N32G430_UART2_RX_PA7
+     bool "Use PA7 as UART2 RX"
+
+config N32G430_UART2_RX_PB5
+     bool "Use PB5 as UART2 RX"
+
+config N32G430_UART2_RX_PD15
+     bool "Use PD15 as UART2 RX"
+endchoice
+
+config BSP_UART3
+     bool "Uart3 Support"
+     depends on USE_SERIAL
+     default n
+
+choice
+    prompt "UART3 TX PIN"
+    depends on BSP_UART3
+    default N32G430_UART3_TX_PB4
+
+config N32G430_UART3_TX_PB4
+     bool "Use PB4 as UART3 TX"
+
+config N32G430_UART3_TX_PB8
+     bool "Use PB8 as UART3 TX"
+
+config N32G430_UART3_TX_PB10
+     bool "Use PB10 as UART3 TX"
+
+endchoice
+
+choice
+    prompt "UART3 RX PIN"
+    depends on BSP_UART3
+    default N32G430_UART3_RX_PB5
+
+config N32G430_UART3_RX_PB5
+     bool "Use PB5 as UART3 RX"
+
+config N32G430_UART3_RX_PB9
+     bool "Use PB9 as UART3 RX"
+
+config N32G430_UART3_RX_PB11
+     bool "Use PB11 as UART3 RX"
+
+endchoice
+
+config BSP_UART4
+     bool "Uart4 Support"
+     depends on USE_SERIAL
+     default n
+
+choice
+    prompt "UART4 TX PIN"
+    depends on BSP_UART4
+    default N32G430_UART4_TX_PA0
+
+config N32G430_UART4_TX_PA0
+     bool "Use PA0 as UART4 TX"
+
+config N32G430_UART4_TX_PB0
+     bool "Use PB0 as UART4 TX"
+
+config N32G430_UART4_TX_PB14
+     bool "Use PB14 as UART4 TX"
+
+config N32G430_UART4_TX_PD13
+     bool "Use PD13 as UART4 TX"
+
+endchoice
+
+choice
+    prompt "UART4 RX PIN"
+    depends on BSP_UART4
+    default N32G430_UART4_RX_PB1
+
+config N32G430_UART4_RX_PB1
+     bool "Use PB1 as UART4 RX"
+
+config N32G430_UART4_RX_PB15
+     bool "Use PB15 as UART4 RX"
+
+config N32G430_UART4_RX_PD12
+     bool "Use PD12 as UART4 RX"
+
+endchoice
+
+config BSP_I2C1
+     bool "I2C1 Support"
+     depends on USE_I2C
+     default n
+
+choice
+    prompt "I2C1 SCL PIN"
+    depends on BSP_I2C1
+    default N32G430_I2C1_SCL_PA4
+    
+config N32G430_I2C1_SCL_PA4
+     bool "Use PA4 as I2C1 SCL"
+
+config N32G430_I2C1_SCL_PA15
+     bool "Use PA15 as I2C1 SCL"
+
+config N32G430_I2C1_SCL_PB6
+     bool "Use PB6 as I2C1 SCL"
+
+config N32G430_I2C1_SCL_PB8
+     bool "Use PB8 as I2C1 SCL"
+
+config N32G430_I2C1_SCL_PD13
+     bool "Use PD13 as I2C1 SCL"
+
+endchoice
+
+choice
+    prompt "I2C1 SDA PIN"
+    depends on BSP_I2C1
+    default N32G430_I2C1_SDA_PA5
+    
+config N32G430_I2C1_SDA_PA5
+     bool "Use PA5 as I2C1 SDA"
+
+config N32G430_I2C1_SDA_PA14
+     bool "Use PA14 as I2C1 SDA"
+
+config N32G430_I2C1_SDA_PB7
+     bool "Use PB7 as I2C1 SDA"
+
+config N32G430_I2C1_SDA_PB9
+     bool "Use PB9 as I2C1 SDA"
+
+config N32G430_I2C1_SDA_PD12
+     bool "Use PD12 as I2C1 SDA"
+
+endchoice
+
+config BSP_I2C2
+     bool "I2C2 Support"
+     depends on USE_I2C
+     default n
+
+choice
+    prompt "I2C2 SCL PIN"
+    depends on BSP_I2C2
+    default N32G430_I2C2_SCL_PA3
+    
+config N32G430_I2C2_SCL_PA3
+     bool "Use PA3 as I2C2 SCL"
+
+config N32G430_I2C2_SCL_PA9
+     bool "Use PA9 as I2C2 SCL"
+
+config N32G430_I2C2_SCL_PB10
+     bool "Use PB10 as I2C2 SCL"
+
+config N32G430_I2C2_SCL_PB13
+     bool "Use PB13 as I2C2 SCL"
+
+config N32G430_I2C2_SCL_PD15
+     bool "Use PD15 as I2C2 SCL"
+
+endchoice
+
+choice
+    prompt "I2C2 SDA PIN"
+    depends on BSP_I2C2
+    default N32G430_I2C2_SDA_PA2
+    
+config N32G430_I2C2_SDA_PA2
+     bool "Use PA2 as I2C2 SDA"
+
+config N32G430_I2C2_SDA_PA10
+     bool "Use PA10 as I2C2 SDA"
+
+config N32G430_I2C2_SDA_PA8
+     bool "Use PA8 as I2C2 SDA"
+
+config N32G430_I2C2_SDA_PB11
+     bool "Use PB11 as I2C2 SDA"
+
+config N32G430_I2C2_SDA_PB14
+     bool "Use PB14 as I2C2 SDA"
+
+config N32G430_I2C2_SDA_PD14
+     bool "Use PD14 as I2C2 SDA"
+
+endchoice
+
+endmenu

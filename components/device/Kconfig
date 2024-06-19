@@ -83,3 +83,7 @@ config USE_RTC
      depends on USE_DEVICE
      default n
      
+config USE_CRC
+     bool "crc api support"
+     depends on USE_DEVICE
+     default n
