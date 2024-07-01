@@ -59,12 +59,55 @@ rt_ssize_t i2c_write(const struct rt_device* dev, rt_uint32_t address, const cha
  * @param flags     I2C Message Flags
  * @return size of bytes read
  */
-rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, char* buffer, rt_ssize_t size,
+rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, rt_uint8_t* buffer, rt_ssize_t size,
     rt_base_t flags)
 {
     rt_ssize_t ret;
     rt_err_t err;
 
+    RT_ASSERT(dev != RT_NULL);
+    struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
+
+    i2c_dev->ops->start(dev);
+    err = rt_completion_wait(&i2c_dev->completion, i2c_dev->timeout);
+    if (err != RT_EOK) {
+        return 0;
+    }
+
+    i2c_dev->ops->send_addr(dev, address);
+    err = rt_completion_wait(&i2c_dev->completion, i2c_dev->timeout);
+    if (err != RT_EOK) {
+        return 0;
+    }
+    if (size == 1) {
+        i2c_dev->ops->disable_ack(dev);
+        i2c_dev->ops->stop(dev);
+    } else if(size == 2) {
+        i2c_dev->ops->set_nack_next(dev);
+        i2c_dev->ops->disable_ack(dev);
+    } else {
+        i2c_dev->ops->enable_ack(dev);
+    }
+
+    for (rt_ssize_t i = 0; i < size; i++) {
+        err = rt_completion_wait(&i2c_dev->completion, i2c_dev->timeout);
+        if (err != RT_EOK) {
+            return 0;
+        }
+        buffer[i] = i2c_dev->ops->read_byte(dev);
+        if (i == size - 2) {
+            i2c_dev->ops->disable_ack(dev);
+            i2c_dev->ops->stop(dev);
+        }
+    }
+
+    return size;
+}
+
+rt_ssize_t i2c_transfer(struct rt_device* dev, struct rt_i2c_msg msgs[], rt_uint32_t num)
+{
+    rt_ssize_t ret;
+    rt_err_t err;
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
 
@@ -75,7 +118,13 @@ rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, char* buff
     }
 #endif
 
-    ret = i2c_dev->ops->read(dev, address, buffer, size, flags);
+    for (rt_uint32_t i = 0; i < num; i++) {
+        if ((msgs[i].flags & RT_I2C_FLAG_RD) == RT_I2C_FLAG_RD) {
+            ret = i2c_read(dev, msgs[i].addr, msgs[i].buf, msgs[i].len, msgs[i].flags);
+        } else {
+            ret = i2c_write(dev, msgs[i].addr, msgs[i].buf, msgs[i].len, msgs[i].flags);
+        }
+    }
 
 #ifdef CONFIG_USE_RTOS
     err = rt_mutex_release(&i2c_dev->lock);
@@ -84,23 +133,6 @@ rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, char* buff
     }
 #endif
 
-    return ret;
-}
-
-rt_ssize_t i2c_transfer(struct rt_device* dev, struct rt_i2c_msg msgs[], rt_uint32_t num)
-{
-    rt_ssize_t ret;
-    rt_err_t err;
-    RT_ASSERT(dev != RT_NULL);
-    struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
-
-    for (rt_uint32_t i = 0; i < num; i++) {
-        if ((msgs[i].flags & RT_I2C_FLAG_RD) == RT_I2C_FLAG_RD) {
-            ret = i2c_read(dev, msgs[i].addr, msgs[i].buf, msgs[i].len, msgs[i].flags);
-        } else {
-            ret = i2c_write(dev, msgs[i].addr, msgs[i].buf, msgs[i].len, msgs[i].flags);
-        }
-    }
     return ret;
 }
 
@@ -164,6 +196,16 @@ static rt_err_t _i2c_control(rt_device_t dev, int cmd, void* args)
     }
 
     return RT_EOK;
+}
+
+/**
+ * @brief 中断回调函数
+ * 
+ * @param dev 
+ * @param event 
+ */
+void rt_hw_i2c_isr(struct rt_device* dev, int event)
+{
 }
 
 #ifdef RT_USING_DEVICE_OPS

@@ -110,6 +110,7 @@ void SysTick_Handler(void)
 #include "bsp/n32g003/library/n32g003_flash.c"
 #include "bsp/n32g003/library/n32g003_misc.c"
 #include "bsp/n32g003/system/system_n32g003.c"
+#include "bsp/n32g003/library/n32g003_gpio.c"
 
 #ifdef CONFIG_USE_ADC
 #include "bsp/n32g003/driver/drv_adc.c"
@@ -119,7 +120,6 @@ void SysTick_Handler(void)
 #ifdef CONFIG_USE_PIN
 #include "bsp/n32g003/driver/drv_pin.c"
 #include "bsp/n32g003/library/n32g003_exti.c"
-#include "bsp/n32g003/library/n32g003_gpio.c"
 #endif
 
 #ifdef CONFIG_USE_SERIAL
@@ -135,4 +135,14 @@ void SysTick_Handler(void)
 #ifdef CONFIG_USE_I2C
 #include "bsp/n32g003/driver/drv_i2c.c"
 #include "bsp/n32g003/library/n32g003_i2c.c"
+#endif
+
+#ifdef CONFIG_USE_CRC
+#include "bsp/n32g003/driver/drv_crc.c"
+#include "bsp/n32g003/library/n32g003_crc.c"
+#endif
+
+#ifdef CONFIG_USE_TIM
+#include "bsp/n32g003/driver/drv_tim.c"
+#include "bsp/n32g003/library/n32g003_tim.c"
 #endif

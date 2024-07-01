@@ -1,11 +1,7 @@
 mainmenu "Framework Configuration"
 
-menu "app configuration"
-     orsource "app/Kconfig"
-endmenu
-
-menu "bsp configuration"
-     orsource "bsp/Kconfig"
+menu "os configuration"
+     orsource "os/Kconfig"
 endmenu
 
 menu "component configuration"
@@ -16,6 +12,10 @@ menu "cpu configuration"
      orsource "libcpu/Kconfig"
 endmenu
 
-menu "os configuration"
-     orsource "os/Kconfig"
+menu "bsp configuration"
+     orsource "bsp/Kconfig"
+endmenu
+
+menu "app configuration"
+     orsource "app/Kconfig"
 endmenu

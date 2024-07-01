@@ -11,6 +11,7 @@
 #pragma once
 
 #include "rtthread.h"
+#include "rtdevice.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,7 +40,7 @@ struct rt_i2c_msg {
     rt_uint16_t addr;
     rt_uint16_t flags;
     rt_uint16_t len;
-    char* buf;
+    rt_uint8_t* buf;
 };
 
 /**
@@ -53,6 +54,7 @@ struct rt_device_i2c {
     rt_uint16_t flags;
 #ifdef CONFIG_USE_RTOS
     struct rt_mutex lock;
+    struct rt_completion completion;
 #endif
     rt_uint32_t timeout;
     rt_uint32_t retries;
@@ -66,6 +68,14 @@ struct rt_i2c_ops {
         rt_base_t flags);
     rt_ssize_t (*read)(const struct rt_device* dev, rt_uint32_t address, char* buffer, rt_ssize_t size,
         rt_base_t flags);
+    void (*start)(const struct rt_device* dev);
+    void (*send_addr)(const struct rt_device* dev, rt_uint16_t addr);
+    void (*stop)(const struct rt_device* dev);
+    void (*enable_ack)(const struct rt_device* dev);
+    void (*set_nack_next)(const struct rt_device* dev);
+    void (*disable_ack)(const struct rt_device* dev);
+    void (*write_byte)(const struct rt_device* dev, rt_uint8_t data);
+    rt_uint8_t (*read_byte)(const struct rt_device* dev);
 };
 
 /**
@@ -77,8 +87,8 @@ struct rt_i2c_ops {
  * @param flags     I2C Message Flags
  * @return size of bytes write
  */
-rt_ssize_t i2c_write(const struct rt_device* dev, rt_uint32_t address, const char* buffer, rt_ssize_t size,
-    rt_base_t flags);
+// rt_ssize_t i2c_write(const struct rt_device* dev, rt_uint32_t address, const char* buffer, rt_ssize_t size,
+//     rt_base_t flags);
 
 /**
  * @brief Read from an I2C slave
@@ -89,8 +99,8 @@ rt_ssize_t i2c_write(const struct rt_device* dev, rt_uint32_t address, const cha
  * @param flags     I2C Message Flags
  * @return size of bytes read
  */
-rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, char* buffer, rt_ssize_t size,
-    rt_base_t flags);
+// rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, char* buffer, rt_ssize_t size,
+//     rt_base_t flags);
 
 /**
  * @brief 
@@ -101,6 +111,14 @@ rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, char* buff
  * @return 传输的num
  */
 rt_ssize_t i2c_transfer(struct rt_device* dev, struct rt_i2c_msg msgs[], rt_uint32_t num);
+
+/**
+ * @brief 中断回调函数
+ * 
+ * @param dev 
+ * @param event 
+ */
+void rt_hw_i2c_isr(struct rt_device* dev, int event);
 
 /**
  * @brief 注册I2C设备

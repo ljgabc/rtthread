@@ -70,6 +70,7 @@
         "n32g430_usart.h": "c",
         "n32g430_wwdg.h": "c",
         "__config": "c",
-        "rt_crc.h": "c"
+        "rt_crc.h": "c",
+        "rt_i2c.h": "c"
     }
 }

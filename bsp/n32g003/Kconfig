@@ -198,8 +198,11 @@ config BSP_TIM1
 choice
     prompt "TIM1 CH1 PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH1_PA6
-    
+    default N32G003_TIM1_CH1_NONE
+
+config N32G003_TIM1_CH1_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH1_PA6
      bool "Use PA6 as TIM1 CH1"
 
@@ -214,8 +217,11 @@ endchoice
 choice
     prompt "TIM1 CH2 PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH2_PA7
-    
+    default N32G003_TIM1_CH2_NONE
+
+config N32G003_TIM1_CH2_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH2_PA7
      bool "Use PA7 as TIM1 CH2"
 
@@ -233,8 +239,11 @@ endchoice
 choice
     prompt "TIM1 CH3 PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH3_PA1
-    
+    default N32G003_TIM1_CH3_NONE
+
+config N32G003_TIM1_CH3_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH3_PA1
      bool "Use PA1 as TIM1 CH3"
 
@@ -252,8 +261,11 @@ endchoice
 choice
     prompt "TIM1 CH4 PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH4_PA3
-    
+    default N32G003_TIM1_CH4_NONE
+
+config N32G003_TIM1_CH4_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH4_PA3
      bool "Use PA3 as TIM1 CH4"
 
@@ -292,8 +304,11 @@ endchoice
 choice
     prompt "TIM1 CH1N PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH1N_PA5
-    
+    default N32G003_TIM1_CH1N_NONE
+
+config N32G003_TIM1_CH1N_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH1N_PA5
      bool "Use PA5 as TIM1 CH1N"
 
@@ -308,8 +323,11 @@ endchoice
 choice
     prompt "TIM1 CH2N PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH2N_PA6
-    
+    default N32G003_TIM1_CH2N_NONE
+
+config N32G003_TIM1_CH2N_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH2N_PA6
      bool "Use PA6 as TIM1 CH2N"
 
@@ -324,8 +342,11 @@ endchoice
 choice
     prompt "TIM1 CH3N PIN"
     depends on BSP_TIM1
-    default N32G003_TIM1_CH3N_PA2
-    
+    default N32G003_TIM1_CH3N_NONE
+
+config N32G003_TIM1_CH3N_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM1_CH3N_PA2
      bool "Use PA2 as TIM1 CH3N"
 
@@ -348,8 +369,11 @@ config BSP_TIM3
 choice
     prompt "TIM3 CH1 PIN"
     depends on BSP_TIM3
-    default N32G003_TIM3_CH1_PA1
-    
+    default N32G003_TIM3_CH1_NONE
+
+config N32G003_TIM3_CH1_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM3_CH1_PA1
      bool "Use PA1 as TIM3 CH1"
 
@@ -385,8 +409,11 @@ endchoice
 choice
     prompt "TIM3 CH2 PIN"
     depends on BSP_TIM3
-    default N32G003_TIM3_CH2_PA2
-    
+    default N32G003_TIM3_CH2_NONE
+
+config N32G003_TIM3_CH2_NONE
+     bool "-Not Used-"
+
 config N32G003_TIM3_CH2_PA2
      bool "Use PA2 as TIM3 CH2"
 
