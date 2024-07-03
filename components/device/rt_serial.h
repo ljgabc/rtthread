@@ -36,8 +36,8 @@
  *
  */
 #pragma once
-#include "components/modules.h"
 #include "rtthread.h"
+#include "rtdevice.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -162,12 +162,6 @@ struct rt_serial_ops {
  */
 struct rt_device_serial {
     struct rt_device dev;
-    // rt_err_t (*open)(const struct rt_device* dev, rt_base_t mode,
-    //     rt_base_t baud, rt_base_t databit, rt_base_t parity, rt_base_t stopbit);
-    // rt_base_t (*getchar)(const struct rt_device* dev);
-    // rt_base_t (*putchar)(const struct rt_device* dev, int32_t ch);
-    // rt_base_t (*start_int_tx)(const struct rt_device* dev);
-    // rt_base_t (*start_dma_tx)(const struct rt_device* dev);
     const struct rt_serial_ops* ops;
 
     void* serial_rx;
@@ -185,11 +179,10 @@ struct rt_device_serial {
     cb_serial_rx _cb_rx;
     cb_serial_tx _cb_tx;
 
-#ifdef CONFIG_USE_RTOS
     rt_tick_t timeout_tick;
     struct rt_completion completion_rx;
     struct rt_completion completion_tx;
-#endif
+
 };
 
 void rt_hw_serial_isr(struct rt_device* dev, int event);

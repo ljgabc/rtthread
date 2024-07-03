@@ -1,6 +1,5 @@
 choice
-     prompt "arm soc"
-     depends on ARCH_ARM
+     prompt "soc"
      default ARM_CM0
 
 config ARM_CM0

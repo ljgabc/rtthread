@@ -1270,6 +1270,10 @@ enum rt_device_class_type
 #define RT_DEVICE_OFLAG_WRONLY          0x002           /**< write only access */
 #define RT_DEVICE_OFLAG_RDWR            0x003           /**< read and write */
 #define RT_DEVICE_OFLAG_OPEN            0x008           /**< device is opened */
+
+#define RT_DEVICE_OFLAG_BLOCKING        0x000           /**< blocking io mode */
+#define RT_DEVICE_OFLAG_NONBLOCKING     0x004           /**< non-blocking io mode */
+
 #define RT_DEVICE_OFLAG_MASK            0xf0f           /**< mask of open flag */
 
 /**
@@ -1278,6 +1282,7 @@ enum rt_device_class_type
  * 0x20 - 0x3F udevice control commands
  * 0x40 -      special device control commands
  */
+#define RT_DEVICE_CTRL_OPEN             0x00            /**< open device */
 #define RT_DEVICE_CTRL_RESUME           0x01            /**< resume device */
 #define RT_DEVICE_CTRL_SUSPEND          0x02            /**< suspend device */
 #define RT_DEVICE_CTRL_CONFIG           0x03            /**< configure device */
@@ -1287,6 +1292,8 @@ enum rt_device_class_type
 #define RT_DEVICE_CTRL_CLR_INT          0x07            /**< clear interrupt */
 #define RT_DEVICE_CTRL_GET_INT          0x08            /**< get interrupt status */
 #define RT_DEVICE_CTRL_CONSOLE_OFLAG    0x09            /**< get console open flag */
+#define RT_DEVICE_CTRL_BLOCKING         0x0A            /**< set blocking mode */
+#define RT_DEVICE_CTRL_TIMEOUT          0x0B            /**< set timeout */
 #define RT_DEVICE_CTRL_MASK             0x1f            /**< mask for contrl commands */
 
 /**
@@ -1310,6 +1317,7 @@ struct rt_device_ops
     rt_ssize_t (*read)  (rt_device_t dev, rt_off_t pos, void *buffer, rt_size_t size);
     rt_ssize_t (*write) (rt_device_t dev, rt_off_t pos, const void *buffer, rt_size_t size);
     rt_err_t  (*control)(rt_device_t dev, int cmd, void *args);
+    rt_err_t  (*flush)  (rt_device_t dev);
 };
 #endif /* RT_USING_DEVICE_OPS */
 

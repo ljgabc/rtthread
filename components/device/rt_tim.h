@@ -66,7 +66,7 @@ struct rt_tim_config {
             rt_uint8_t edge : 1; // 上升沿 or 下降沿
             rt_uint8_t filter : 4; // 滤波器，用来过滤毛刺，连续多个tCLK采集到电平才认为是有效信号
             rt_uint8_t : 0;
-        } capture_config;
+        } capture;
         struct {
             rt_uint8_t polarity : 1; // PWM输出极性
             rt_uint8_t idle_state : 1; // IDLE时状态
@@ -75,7 +75,7 @@ struct rt_tim_config {
             rt_uint8_t bk_en : 1; // 使能刹车功能
             rt_uint8_t bk_polarity : 1; // 刹车信号极性
             rt_uint8_t : 0;
-        } pwm_config;
+        } pwm;
     };
 };
 

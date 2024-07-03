@@ -13,11 +13,6 @@ config USE_PIN
      depends on USE_DEVICE
      default y
 
-config USE_PWM
-     bool "pwm api support"
-     depends on USE_DEVICE
-     default n
-
 config USE_SERIAL
      bool "serial api support"
      depends on USE_DEVICE

@@ -19,12 +19,6 @@
 extern "C" {
 #endif
 
-#ifndef RT_USING_HEAP
-rt_uint8_t _rx_buffer[CONFIG_SERIAL_RX_FIFOSZ];
-rt_uint8_t _tx_buffer[CONFIG_SERIAL_TX_FIFOSZ];
-struct rt_ringbuffer _rx_fifo, _tx_fifo;
-#endif
-
 /*
  * Serial poll routines
  */
@@ -119,9 +113,8 @@ rt_inline rt_ssize_t _serial_fifo_rx(struct rt_device* dev, rt_uint8_t* data, rt
             /* enable interrupt */
             rt_hw_interrupt_enable(level);
 
-#ifdef CONFIG_USE_RTOS
             ret = rt_completion_wait(&(serial->completion_rx), serial->timeout_tick);
-#endif
+
             if (ret == RT_EOK) {
             } else if (ret == -RT_ETIMEOUT) {
                 return -RT_ETIMEOUT;
@@ -190,9 +183,9 @@ rt_inline rt_ssize_t _serial_int_tx(struct rt_device* dev, const rt_uint8_t* dat
             rt_err_t ret;
             /* enable interrupt */
             rt_hw_interrupt_enable(level);
-#ifdef CONFIG_USE_RTOS
+
             ret = rt_completion_wait(&(serial->completion_tx), serial->timeout_tick);
-#endif
+
             if (ret == RT_EOK) {
                 continue;
             } else if (ret == -RT_ETIMEOUT) {
@@ -284,9 +277,8 @@ rt_inline rt_ssize_t _serial_dma_tx(struct rt_device* dev, const rt_uint8_t* dat
             /* enable interrupt */
             rt_hw_interrupt_enable(level);
 
-#ifdef CONFIG_USE_RTOS
             ret = rt_completion_wait(&(serial->completion_tx), serial->timeout_tick);
-#endif
+
             if (ret == RT_EOK) {
                 continue;
             } else if (ret == -RT_ETIMEOUT) {
@@ -409,18 +401,13 @@ static rt_err_t rt_serial_open(struct rt_device* dev, rt_uint16_t oflag)
     if (oflag & RT_DEVICE_FLAG_INT_RX) {
         /* initialize the Rx/Tx structure according to open flag */
         if (serial->serial_rx == RT_NULL) {
-#ifndef RT_USING_HEAP
-            rt_ringbuffer_init(&_rx_fifo, _rx_buffer, CONFIG_SERIAL_RX_FIFOSZ);
-            serial->serial_rx = &_rx_fifo;
-#else
             serial->serial_rx = rt_ringbuffer_create(CONFIG_SERIAL_RX_FIFOSZ);
-#endif
         }
         dev->open_flag |= RT_DEVICE_FLAG_INT_RX;
         serial->_cb_rx = _serial_fifo_rx;
-#ifdef CONFIG_USE_RTOS
+
         rt_completion_init(&(serial->completion_rx));
-#endif
+
         /* configure low level device */
         serial->ops->control(dev, RT_DEVICE_CTRL_SET_INT, (void*)RT_DEVICE_FLAG_INT_RX);
     }
@@ -428,21 +415,16 @@ static rt_err_t rt_serial_open(struct rt_device* dev, rt_uint16_t oflag)
     else if (oflag & RT_DEVICE_FLAG_DMA_RX) {
         /* initialize the Rx/Tx structure according to open flag */
         if (serial->serial_rx == RT_NULL) {
-#ifndef RT_USING_HEAP
-            rt_ringbuffer_init(&_rx_fifo, _rx_buffer, CONFIG_SERIAL_RX_FIFOSZ);
-            serial->serial_rx = &_rx_fifo;
-#else
             serial->serial_rx = rt_ringbuffer_create(CONFIG_SERIAL_RX_FIFOSZ);
-#endif
         }
         dev->open_flag |= RT_DEVICE_FLAG_DMA_RX;
 
         serial->dma_idx_rx = 0;
         serial->_cb_rx = _serial_fifo_rx;
 
-#ifdef CONFIG_USE_RTOS
+
         rt_completion_init(&(serial->completion_rx));
-#endif
+
         /* configure fifo address and length to low level device */
         serial->ops->control(serial, RT_DEVICE_CTRL_CONFIG, (void*)RT_DEVICE_FLAG_DMA_RX);
     }
@@ -454,12 +436,7 @@ static rt_err_t rt_serial_open(struct rt_device* dev, rt_uint16_t oflag)
 
     if (oflag & RT_DEVICE_FLAG_INT_TX) {
         if (serial->serial_tx == RT_NULL) {
-#ifndef RT_USING_HEAP
-            rt_ringbuffer_init(&_tx_fifo, _tx_buffer, CONFIG_SERIAL_TX_FIFOSZ);
-            serial->serial_tx = &_tx_fifo;
-#else
             serial->serial_tx = rt_ringbuffer_create(CONFIG_SERIAL_TX_FIFOSZ);
-#endif
         }
         dev->open_flag |= RT_DEVICE_FLAG_INT_TX;
         /* configure low level device */
@@ -467,27 +444,19 @@ static rt_err_t rt_serial_open(struct rt_device* dev, rt_uint16_t oflag)
 
         serial->_cb_tx = _serial_int_tx;
 
-#ifdef CONFIG_USE_RTOS
         rt_completion_init(&(serial->completion_tx));
-#endif
+
     }
 #ifdef CONFIG_SERIAL_USE_DMA_TX
     else if (oflag & RT_DEVICE_FLAG_DMA_TX) {
         if (serial->serial_tx == RT_NULL) {
-#ifndef RT_USING_HEAP
-            rt_ringbuffer_init(&_tx_fifo, _tx_buffer, CONFIG_SERIAL_TX_FIFOSZ);
-            serial->serial_tx = &_tx_fifo;
-#else
             serial->serial_tx = rt_ringbuffer_create(CONFIG_SERIAL_TX_FIFOSZ);
-#endif
         }
         dev->open_flag |= RT_DEVICE_FLAG_DMA_TX;
 
         serial->_cb_tx = _serial_dma_tx;
 
-#ifdef CONFIG_USE_RTOS
         rt_completion_init(&(serial->completion_tx));
-#endif
 
         /* configure low level device */
         serial->ops->control(serial, RT_DEVICE_CTRL_CONFIG, (void*)RT_DEVICE_FLAG_DMA_TX);
@@ -525,9 +494,7 @@ static rt_err_t rt_serial_close(struct rt_device* dev)
         rt_free(rx_fifo);
 
         serial->serial_rx = RT_NULL;
-#ifdef CONFIG_USE_RTOS
         rt_completion_init(&(serial->completion_rx));
-#endif
     }
 #ifdef CONFIG_SERIAL_USE_DMA_RX
     else if (dev->open_flag & RT_DEVICE_FLAG_DMA_RX) {
@@ -542,9 +509,7 @@ static rt_err_t rt_serial_close(struct rt_device* dev)
         rt_free(rx_fifo);
 
         serial->serial_rx = RT_NULL;
-#ifdef CONFIG_USE_RTOS
         rt_completion_init(&(serial->completion_rx));
-#endif
     }
 #endif /* RT_SERIAL_USING_DMA */
 
@@ -560,9 +525,7 @@ static rt_err_t rt_serial_close(struct rt_device* dev)
         rt_free(tx_fifo);
 
         serial->serial_tx = RT_NULL;
-#ifdef CONFIG_USE_RTOS
         rt_completion_init(&(serial->completion_tx));
-#endif
     }
 #ifdef CONFIG_SERIAL_USE_DMA_TX
     else if (dev->open_flag & RT_DEVICE_FLAG_DMA_TX) {
@@ -577,9 +540,7 @@ static rt_err_t rt_serial_close(struct rt_device* dev)
         rt_free(tx_fifo);
 
         serial->serial_tx = RT_NULL;
-#ifdef CONFIG_USE_RTOS
         rt_completion_init(&(serial->completion_tx));
-#endif
     }
 #endif /* RT_SERIAL_USING_DMA */
 
@@ -591,7 +552,7 @@ static rt_err_t rt_serial_close(struct rt_device* dev)
 static rt_ssize_t rt_serial_read(struct rt_device* dev,
     rt_off_t pos,
     void* buffer,
-    rt_ssize_t size)
+    rt_size_t size)
 {
     struct rt_device_serial* serial;
 
@@ -607,7 +568,7 @@ static rt_ssize_t rt_serial_read(struct rt_device* dev,
 static rt_ssize_t rt_serial_write(struct rt_device* dev,
     rt_off_t pos,
     const void* buffer,
-    rt_ssize_t size)
+    rt_size_t size)
 {
     struct rt_device_serial* serial;
 
@@ -665,9 +626,7 @@ static rt_err_t rt_serial_flush(struct rt_device* dev)
                 /* enable interrupt */
                 rt_hw_interrupt_enable(level);
                 //            serial->ops->enable_interrupt(serial);
-#ifdef CONFIG_USE_RTOS
                 rt_completion_wait(&(serial->completion_tx), RT_WAITING_FOREVER);
-#endif
             }
         }
 
@@ -721,12 +680,10 @@ static rt_err_t rt_serial_control(struct rt_device* dev,
             ret = serial->ops->configure(dev, pconfig);
         }
         break;
-#ifdef CONFIG_USE_RTOS
     case RT_DEVICE_CTRL_TIMEOUT: {
         rt_tick_t timeout_tick = (rt_tick_t)args;
         serial->timeout_tick = timeout_tick;
     } break;
-#endif
     default:
         /* control device */
         ret = serial->ops->control(dev, cmd, args);
@@ -767,9 +724,8 @@ void rt_hw_serial_isr(struct rt_device* dev, int event)
         /* push a new data */
         rt_ringbuffer_putchar_force(rx_fifo, ch);
 
-#ifdef CONFIG_USE_RTOS
         rt_completion_done(&(serial->completion_rx));
-#endif
+
         /* invoke callback */
         if (dev->rx_indicate != RT_NULL) {
             rt_ssize_t rx_length;
@@ -793,9 +749,9 @@ void rt_hw_serial_isr(struct rt_device* dev, int event)
         if (len == 0) {
             // TODO: stop tx
             serial->ops->stop_tx(dev);
-#ifdef CONFIG_USE_RTOS
+
             rt_completion_done(&(serial->completion_tx));
-#endif
+
             /* invoke callback */
             if (dev->tx_complete != RT_NULL) {
                 dev->tx_complete(dev, (void*)len);
@@ -831,9 +787,8 @@ void rt_hw_serial_isr(struct rt_device* dev, int event)
             }
         }
         serial->dma_idx_rx = dma_idx;
-#ifdef CONFIG_USE_RTOS
+
         rt_completion_done(&(serial->completion_rx));
-#endif
 
         /* invoke callback */
         if (dev->rx_indicate != RT_NULL) {
@@ -859,9 +814,9 @@ void rt_hw_serial_isr(struct rt_device* dev, int event)
         if (len == 0) {
             // TODO: stop tx
             serial->ops->stop_dma_tx(serial);
-#ifdef CONFIG_USE_RTOS
+
             rt_completion_done(&(serial->completion_tx));
-#endif
+
             /* invoke callback */
             if (dev->tx_complete != RT_NULL) {
                 dev->tx_complete(dev, (void*)len);
@@ -879,47 +834,6 @@ void rt_hw_serial_isr(struct rt_device* dev, int event)
 #endif /* RT_SERIAL_USING_DMA */
     }
 }
-
-/*
- * serial register
- */
-// rt_err_t rt_hw_serial_register(struct rt_device_serial* serial,
-//     const char* name,
-//     rt_uint32_t flag,
-//     void* data)
-// {
-//     rt_err_t ret;
-//     struct rt_device* device;
-//     RT_ASSERT(serial != RT_NULL);
-
-// #ifdef CONFIG_USE_RTOS
-//     serial->timeout_tick = RT_WAITING_FOREVER;
-// #endif
-
-//     device = &(serial->dev);
-
-//     device->type = RT_Device_Class_Char;
-//     device->rx_indicate = RT_NULL;
-//     device->tx_complete = RT_NULL;
-
-// #ifdef RT_USING_DEVICE_OPS
-//     device->ops = &serial_ops;
-// #else
-//     device->init = rt_serial_init;
-//     device->open = rt_serial_open;
-//     device->close = rt_serial_close;
-//     device->read = rt_serial_read;
-//     device->write = rt_serial_write;
-//     device->flush = rt_serial_flush;
-//     device->control = rt_serial_control;
-// #endif
-//     device->user_data = data;
-
-//     /* register a character device */
-//     ret = rt_device_register(device, name, flag);
-
-//     return ret;
-// }
 
 /**
  * @brief 注册Serial设备
@@ -949,9 +863,8 @@ rt_err_t rt_device_serial_register(struct rt_device_serial* serial, const char* 
     serial->dev.control = _pin_control;
 #endif
 
-#ifdef CONFIG_USE_RTOS
     serial->timeout_tick = RT_WAITING_FOREVER;
-#endif
+
     serial->ops = ops;
     serial->dev.user_data = user_data;
 

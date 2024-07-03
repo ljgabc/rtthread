@@ -62,7 +62,7 @@ rt_uint8_t adc_get_resolution(const struct rt_device* dev)
  * @param size      缓冲区大小
  * @return size 
  */
-static rt_ssize_t _adc_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_ssize_t size)
+static rt_ssize_t _adc_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_adc* adc = (struct rt_device_adc*)dev;

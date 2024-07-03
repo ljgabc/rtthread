@@ -532,13 +532,13 @@ static rt_err_t n32g003_tim_config(const struct rt_device* dev, rt_base_t channe
         ic_init.IcPolarity = TIM_IC_POLARITY_RISING;
         ic_init.IcSelection = TIM_IC_SELECTION_DIRECTTI;
         ic_init.IcPrescaler = TIM_IC_PSC_DIV1;
-        ic_init.IcFilter = config->capture_config.filter;
+        ic_init.IcFilter = config->capture.filter;
         TIM_Input_Channel_Initialize(tim->module, &ic_init);
         TIM_Interrupt_Enable(TIM3, TIM_INT_CC1 | TIM_INT_CC2);
         break;
     case TIM_MODE_PWM:
 
-        n32g003_tim_gpio_init(tim, channel, config->pwm_config.complementary_en);
+        n32g003_tim_gpio_init(tim, channel, config->pwm.complementary_en);
 
         TIM_Output_Channel_Struct_Initialize(&oc_init);
 
@@ -550,17 +550,17 @@ static rt_err_t n32g003_tim_config(const struct rt_device* dev, rt_base_t channe
 
         oc_init.OcMode = TIM_OCMODE_PWM2;
         oc_init.OutputState = TIM_OUTPUT_STATE_ENABLE;
-        if (config->pwm_config.complementary_en == TIM_PWM_COMPLEMENTARY) {
+        if (config->pwm.complementary_en == TIM_PWM_COMPLEMENTARY) {
             oc_init.OutputNState = TIM_OUTPUT_NSTATE_ENABLE;
         }
         oc_init.Pulse = 0;
 
-        if (config->pwm_config.polarity == TIM_PWM_LOWACTIVE) {
+        if (config->pwm.polarity == TIM_PWM_LOWACTIVE) {
             oc_init.OcPolarity = TIM_OC_POLARITY_LOW;
             oc_init.OcNPolarity = TIM_OC_POLARITY_LOW;
         }
 
-        if (config->pwm_config.idle_state == TIM_PWM_IDLESTATE_HIGH) {
+        if (config->pwm.idle_state == TIM_PWM_IDLESTATE_HIGH) {
             oc_init.OcIdleState = TIM_OC_IDLE_STATE_SET;
             oc_init.OcNIdleState = TIM_OC_IDLE_STATE_SET;
         }
@@ -585,18 +585,18 @@ static rt_err_t n32g003_tim_config(const struct rt_device* dev, rt_base_t channe
             break;
         }
 
-        if (config->pwm_config.dt_en == TIM_PWM_DT_ENABLE || config->pwm_config.bk_en == TIM_PWM_BK_ENABLE) {
+        if (config->pwm.dt_en == TIM_PWM_DT_ENABLE || config->pwm.bk_en == TIM_PWM_BK_ENABLE) {
             TIM_BDTRInitType bdtr_init;
             TIM_Break_And_Dead_Time_Struct_Initialize(&bdtr_init);
             bdtr_init.OssrState = TIM_OSSR_STATE_DISABLE;
             bdtr_init.OssiState = TIM_OSSR_STATE_DISABLE;
             bdtr_init.LockLevel = TIM_LOCK_LEVEL_1;
             bdtr_init.DeadTime = 0;
-            if (config->pwm_config.bk_en == TIM_PWM_BK_ENABLE) {
+            if (config->pwm.bk_en == TIM_PWM_BK_ENABLE) {
                 bdtr_init.Break = TIM_BREAK_IN_ENABLE;
             }
 
-            if (config->pwm_config.bk_polarity == TIM_PWM_BK_HIGHACTIVE) {
+            if (config->pwm.bk_polarity == TIM_PWM_BK_HIGHACTIVE) {
                 bdtr_init.BreakPolarity = TIM_BREAK_POLARITY_HIGH;
             } else {
                 bdtr_init.BreakPolarity = TIM_BREAK_POLARITY_LOW;
@@ -608,7 +608,7 @@ static rt_err_t n32g003_tim_config(const struct rt_device* dev, rt_base_t channe
         TIM_PWM_Output_Enable(tim->module);
         break;
     case TIM_MODE_TOGGLE:
-        n32g003_tim_gpio_init(tim, channel, config->pwm_config.complementary_en);
+        n32g003_tim_gpio_init(tim, channel, config->pwm.complementary_en);
 
         TIM_Output_Channel_Struct_Initialize(&oc_init);
 

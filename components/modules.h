@@ -54,10 +54,6 @@
 #include "components/device/rt_i2c.h"
 #endif
 
-#ifdef CONFIG_USE_PWM
-#include "components/device/rt_pwm.h"
-#endif
-
 #ifdef CONFIG_USE_RTC
 #include "components/device/rt_rtc.h"
 #endif

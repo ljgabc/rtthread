@@ -1,19 +1,15 @@
 mainmenu "bsp configuration"
 
-choice
-     prompt "bsp support"
-     default BSP_TEMPLATE
-
-config BSP_TEMPLATE
-     bool "!!!template!!! do not use this!!!"
-
-config BSP_N32G003
+menuconfig BSP_N32G003
      bool "n32g003 support"
+
+     if BSP_N32G003
+     orsource "n32g003/Kconfig"
+     endif
 
 config BSP_N32G430
      bool "n32g430 support"
 
-endchoice
-
-orsource "n32g003/Kconfig"
-orsource "n32g430/Kconfig"
+     if BSP_N32G430
+     orsource "n32g430/Kconfig"
+     endif
