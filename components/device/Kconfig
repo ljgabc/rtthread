@@ -1,7 +1,3 @@
-config USE_DEVICE
-     bool "Use Device SubSystem"
-     default y
-
 config USE_ADC
      bool "adc api support"
      depends on USE_DEVICE

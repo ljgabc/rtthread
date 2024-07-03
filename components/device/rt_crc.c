@@ -53,7 +53,7 @@ rt_uint32_t crc_calc_buffer(const struct rt_device* dev, const rt_uint8_t* buffe
     return crc->ops->calc_buffer(dev, buffer, length);
 }
 
-static rt_ssize_t _crc_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_ssize_t size)
+static rt_ssize_t _crc_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_crc* crc = (struct rt_device_crc*)dev;
@@ -61,7 +61,7 @@ static rt_ssize_t _crc_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_ssiz
     return size;
 }
 
-static rt_ssize_t _crc_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_ssize_t size)
+static rt_ssize_t _crc_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_crc* crc = (struct rt_device_crc*)dev;

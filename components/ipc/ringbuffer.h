@@ -10,17 +10,17 @@
 #ifndef RINGBUFFER_H__
 #define RINGBUFFER_H__
 
-#include <rtconfig.h>
 #include <rtdef.h>
-
+#include <rtconfig.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* ring buffer */
-struct rt_ringbuffer {
-    rt_uint8_t* buffer_ptr;
+struct rt_ringbuffer
+{
+    rt_uint8_t *buffer_ptr;
     /* use the msb of the {read,write}_index as mirror bit. You can see this as
      * if the buffer adds a virtual mirror and the pointers point either to the
      * normal or to the mirrored buffer. If the write_index has the same value
@@ -49,7 +49,8 @@ struct rt_ringbuffer {
     rt_int32_t buffer_size;
 };
 
-enum rt_ringbuffer_state {
+enum rt_ringbuffer_state
+{
     RT_RINGBUFFER_EMPTY,
     RT_RINGBUFFER_FULL,
     /* half full is neither full nor empty */
@@ -62,20 +63,20 @@ enum rt_ringbuffer_state {
  * Please note that the ring buffer implementation of RT-Thread
  * has no thread wait or resume feature.
  */
-void rt_ringbuffer_init(struct rt_ringbuffer* rb, rt_uint8_t* pool, rt_int32_t size);
-void rt_ringbuffer_reset(struct rt_ringbuffer* rb);
-rt_size_t rt_ringbuffer_put(struct rt_ringbuffer* rb, const rt_uint8_t* ptr, rt_uint32_t length);
-rt_size_t rt_ringbuffer_put_force(struct rt_ringbuffer* rb, const rt_uint8_t* ptr, rt_uint32_t length);
-rt_size_t rt_ringbuffer_putchar(struct rt_ringbuffer* rb, const rt_uint8_t ch);
-rt_size_t rt_ringbuffer_putchar_force(struct rt_ringbuffer* rb, const rt_uint8_t ch);
-rt_size_t rt_ringbuffer_get(struct rt_ringbuffer* rb, rt_uint8_t* ptr, rt_uint32_t length);
-rt_size_t rt_ringbuffer_peek(struct rt_ringbuffer* rb, rt_uint8_t** ptr);
-rt_size_t rt_ringbuffer_getchar(struct rt_ringbuffer* rb, rt_uint8_t* ch);
-rt_size_t rt_ringbuffer_data_len(struct rt_ringbuffer* rb);
+void rt_ringbuffer_init(struct rt_ringbuffer *rb, rt_uint8_t *pool, rt_int32_t size);
+void rt_ringbuffer_reset(struct rt_ringbuffer *rb);
+rt_size_t rt_ringbuffer_put(struct rt_ringbuffer *rb, const rt_uint8_t *ptr, rt_uint32_t length);
+rt_size_t rt_ringbuffer_put_force(struct rt_ringbuffer *rb, const rt_uint8_t *ptr, rt_uint32_t length);
+rt_size_t rt_ringbuffer_putchar(struct rt_ringbuffer *rb, const rt_uint8_t ch);
+rt_size_t rt_ringbuffer_putchar_force(struct rt_ringbuffer *rb, const rt_uint8_t ch);
+rt_size_t rt_ringbuffer_get(struct rt_ringbuffer *rb, rt_uint8_t *ptr, rt_uint32_t length);
+rt_size_t rt_ringbuffer_peek(struct rt_ringbuffer *rb, rt_uint8_t **ptr);
+rt_size_t rt_ringbuffer_getchar(struct rt_ringbuffer *rb, rt_uint8_t *ch);
+rt_size_t rt_ringbuffer_data_len(struct rt_ringbuffer *rb);
 
 #ifdef RT_USING_HEAP
 struct rt_ringbuffer* rt_ringbuffer_create(rt_uint32_t length);
-void rt_ringbuffer_destroy(struct rt_ringbuffer* rb);
+void rt_ringbuffer_destroy(struct rt_ringbuffer *rb);
 #endif
 
 /**
@@ -85,14 +86,15 @@ void rt_ringbuffer_destroy(struct rt_ringbuffer* rb);
  *
  * @return  Buffer size.
  */
-rt_inline rt_uint32_t rt_ringbuffer_get_size(struct rt_ringbuffer* rb)
+rt_inline rt_uint32_t rt_ringbuffer_get_size(struct rt_ringbuffer *rb)
 {
     RT_ASSERT(rb != RT_NULL);
-    return (rt_uint32_t)(rb->buffer_size);
+    return rb->buffer_size;
 }
 
 /** return the size of empty space in rb */
 #define rt_ringbuffer_space_len(rb) ((rb)->buffer_size - rt_ringbuffer_data_len(rb))
+
 
 #ifdef __cplusplus
 }

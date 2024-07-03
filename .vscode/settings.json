@@ -71,6 +71,8 @@
         "n32g430_wwdg.h": "c",
         "__config": "c",
         "rt_crc.h": "c",
-        "rt_i2c.h": "c"
+        "rt_i2c.h": "c",
+        "rtdebug.h": "c",
+        "rt_adc.h": "c"
     }
 }

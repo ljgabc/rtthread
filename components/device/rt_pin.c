@@ -92,7 +92,7 @@ void pin_disable_irq(const struct rt_device* dev, rt_base_t pin)
  * @param size  缓冲区大小
  * @return size 
  */
-static rt_ssize_t _pin_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_ssize_t size)
+static rt_ssize_t _pin_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_pin* pin_dev = (struct rt_device_pin*)dev;
@@ -115,7 +115,7 @@ static rt_ssize_t _pin_read(rt_device_t dev, rt_off_t pos, void* buffer, rt_ssiz
  * @param size      缓冲区大小
  * @return size 
  */
-static rt_ssize_t _pin_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_ssize_t size)
+static rt_ssize_t _pin_write(rt_device_t dev, rt_off_t pos, const void* buffer, rt_size_t size)
 {
     RT_ASSERT(dev != RT_NULL);
     struct rt_device_pin* pin_dev = (struct rt_device_pin*)dev;

@@ -14,7 +14,7 @@
 #include <rtthread.h>
 #include "bsp/n32g003/system/system_n32g003.h"
 
-#ifdef CONFIG_USE_RTOS
+//#ifdef CONFIG_USE_RTOS
 
 #define _SCB_BASE (0xE000E010UL)
 #define _SYSTICK_CTRL (*(rt_uint32_t*)(_SCB_BASE + 0x0))
@@ -31,7 +31,7 @@
 #define RAM_SIZE               (3 * 1024)
 #define RAM_END                (RAM_START + RAM_SIZE)	
 
-#if defined(__CC_ARM) || defined(__CLANG_ARM)
+#if defined(__ARMCC_VERSION)
 extern int Image$$RW_IRAM1$$ZI$$Limit;
 #define HEAP_BEGIN      ((void *)&Image$$RW_IRAM1$$ZI$$Limit)
 #elif __ICCARM__
@@ -104,7 +104,7 @@ void SysTick_Handler(void)
     rt_interrupt_leave();
 }
 
-#endif
+//#endif
 
 #include "bsp/n32g003/library/n32g003_rcc.c"
 #include "bsp/n32g003/library/n32g003_flash.c"

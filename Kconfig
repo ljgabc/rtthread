@@ -1,5 +1,3 @@
-mainmenu "Framework Configuration"
-
 menu "os configuration"
      orsource "os/Kconfig"
 endmenu

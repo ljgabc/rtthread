@@ -15,6 +15,6 @@ config USE_DATAQUEUE
 
 config USE_WORKQUEUE
      bool "workqueue support"
-     depends on USE_RTOS
+     depends on USE_RTOS && OS_USE_SEMAPHORE
      default n
 

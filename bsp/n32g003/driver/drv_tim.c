@@ -12,6 +12,8 @@
 
 #if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USE_TIM)
 
+#if defined(CONFIG_BSP_TIM1) || defined(CONFIG_BSP_TIM3) || defined(CONFIG_BSP_TIM6)
+
 #include "bsp/n32g003/library/n32g003_gpio.h"
 #include "bsp/n32g003/library/n32g003_misc.h"
 #include "bsp/n32g003/library/n32g003_rcc.h"
@@ -192,7 +194,6 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
 
     if (tim->module == TIM1) {
         switch (channel) {
-#ifndef CONFIG_N32G003_TIM1_CH1_NONE
         case 1:
 #if defined(CONFIG_N32G003_TIM1_CH1_PA6)
             GPIO_InitStructure.Pin = GPIO_PIN_6;
@@ -209,8 +210,6 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
             GPIO_InitStructure.GPIO_Alternate = GPIO_AF4_TIM1;
             RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPB);
             GPIO_Peripheral_Initialize(GPIOB, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH1 pin"
 #endif
             if (complementary_en == RT_TRUE) {
 #if defined(CONFIG_N32G003_TIM1_CH1N_PA5)
@@ -228,13 +227,9 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
                 GPIO_InitStructure.GPIO_Alternate = GPIO_AF5_TIM1;
                 RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
                 GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH1N pin"
 #endif
             }
             break;
-#endif
-#ifndef CONFIG_N32G003_TIM1_CH2_NONE
         case 2:
 #if defined(CONFIG_N32G003_TIM1_CH2_PA7)
             GPIO_InitStructure.Pin = GPIO_PIN_7;
@@ -256,10 +251,7 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
             GPIO_InitStructure.GPIO_Alternate = GPIO_AF4_TIM1;
             RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
             GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH2 pin"
 #endif
-
             if (complementary_en == RT_TRUE) {
 #if defined(CONFIG_N32G003_TIM1_CH2N_PA6)
                 GPIO_InitStructure.Pin = GPIO_PIN_6;
@@ -276,13 +268,9 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
                 GPIO_InitStructure.GPIO_Alternate = GPIO_AF4_TIM1;
                 RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
                 GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH2N pin"
 #endif
             }
             break;
-#endif
-#ifndef CONFIG_N32G003_TIM1_CH3_NONE
         case 3:
 #if defined(CONFIG_N32G003_TIM1_CH3_PA1)
             GPIO_InitStructure.Pin = GPIO_PIN_1;
@@ -304,10 +292,7 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
             GPIO_InitStructure.GPIO_Alternate = GPIO_AF4_TIM1;
             RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
             GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH3 pin"
 #endif
-
             if (complementary_en == RT_TRUE) {
 #if defined(CONFIG_N32G003_TIM1_CH3N_PA2)
                 GPIO_InitStructure.Pin = GPIO_PIN_2;
@@ -329,13 +314,9 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
                 GPIO_InitStructure.GPIO_Alternate = GPIO_AF4_TIM1;
                 RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
                 GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH3N pin"
 #endif
             }
             break;
-#endif
-#ifndef CONFIG_N32G003_TIM1_CH4_NONE
         case 4:
 #if defined(CONFIG_N32G003_TIM1_CH4_PA3)
             GPIO_InitStructure.Pin = GPIO_PIN_3;
@@ -392,17 +373,13 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
             GPIO_InitStructure.GPIO_Alternate = GPIO_AF4_TIM1;
             RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPB);
             GPIO_Peripheral_Initialize(GPIOB, &GPIO_InitStructure);
-#else
-#error "Please define the TIM1_CH4 pin"
 #endif
             break;
-#endif
         default:
             break;
         }
     } else if (tim->module == TIM3) {
         switch (channel) {
-#ifndef CONFIG_N32G003_TIM3_CH1_NONE
         case 1:
 #if defined(CONFIG_N32G003_TIM3_CH1_PA1)
             GPIO_InitStructure.Pin = GPIO_PIN_6;
@@ -454,12 +431,8 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
             GPIO_InitStructure.GPIO_Alternate = GPIO_AF1_TIM3;
             RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
             GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM3_CH1 pin"
 #endif
             break;
-#endif
-#ifndef CONFIG_N32G003_TIM3_CH2_NONE
         case 2:
 #if defined(CONFIG_N32G003_TIM3_CH2_PA2)
             GPIO_InitStructure.Pin = GPIO_PIN_2;
@@ -511,11 +484,8 @@ static __inline void n32g003_tim_gpio_init(struct n32g003_tim_device* tim, rt_ba
             GPIO_InitStructure.GPIO_Alternate = GPIO_AF2_TIM3;
             RCC_APB_Peripheral_Clock_Enable(RCC_APB_PERIPH_IOPA);
             GPIO_Peripheral_Initialize(GPIOA, &GPIO_InitStructure);
-#else
-#error "Please define the TIM3_CH2 pin"
 #endif
             break;
-#endif
         default:
             break;
         }
@@ -814,6 +784,8 @@ INIT_DEVICE_EXPORT(_n32g003_tim_init);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 #endif
