@@ -14,8 +14,6 @@
 #include <rtthread.h>
 #include "bsp/n32g003/system/system_n32g003.h"
 
-//#ifdef CONFIG_USE_RTOS
-
 #define _SCB_BASE (0xE000E010UL)
 #define _SYSTICK_CTRL (*(rt_uint32_t*)(_SCB_BASE + 0x0))
 #define _SYSTICK_LOAD (*(rt_uint32_t*)(_SCB_BASE + 0x4))
@@ -31,7 +29,7 @@
 #define RAM_SIZE               (3 * 1024)
 #define RAM_END                (RAM_START + RAM_SIZE)	
 
-#if defined(__ARMCC_VERSION)
+#if __ARMCC_VERSION
 extern int Image$$RW_IRAM1$$ZI$$Limit;
 #define HEAP_BEGIN      ((void *)&Image$$RW_IRAM1$$ZI$$Limit)
 #elif __ICCARM__
@@ -112,37 +110,37 @@ void SysTick_Handler(void)
 #include "bsp/n32g003/system/system_n32g003.c"
 #include "bsp/n32g003/library/n32g003_gpio.c"
 
-#ifdef CONFIG_USE_ADC
+#ifdef CONFIG_USING_ADC
 #include "bsp/n32g003/driver/drv_adc.c"
 #include "bsp/n32g003/library/n32g003_adc.c"
 #endif
 
-#ifdef CONFIG_USE_PIN
+#ifdef CONFIG_USING_PIN
 #include "bsp/n32g003/driver/drv_pin.c"
 #include "bsp/n32g003/library/n32g003_exti.c"
 #endif
 
-#ifdef CONFIG_USE_SERIAL
+#ifdef CONFIG_USING_SERIAL
 #include "bsp/n32g003/driver/drv_serial.c"
 #include "bsp/n32g003/library/n32g003_uart.c"
 #endif
 
-#ifdef CONFIG_USE_SPI
+#ifdef CONFIG_USING_SPI
 #include "mcu/n32g003/bsp/drv_spi.c"
 #include "mcu/n32g003/library/n32g003_spi.c"
 #endif
 
-#ifdef CONFIG_USE_I2C
+#ifdef CONFIG_USING_I2C
 #include "bsp/n32g003/driver/drv_i2c.c"
 #include "bsp/n32g003/library/n32g003_i2c.c"
 #endif
 
-#ifdef CONFIG_USE_CRC
+#ifdef CONFIG_USING_CRC
 #include "bsp/n32g003/driver/drv_crc.c"
 #include "bsp/n32g003/library/n32g003_crc.c"
 #endif
 
-#ifdef CONFIG_USE_TIM
+#ifdef CONFIG_USING_TIM
 #include "bsp/n32g003/driver/drv_tim.c"
 #include "bsp/n32g003/library/n32g003_tim.c"
 #endif

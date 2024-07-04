@@ -18,23 +18,17 @@ config RT_USING_USER_MAIN
             default 85  if RT_THREAD_PRIORITY_256
     endif
 
-menuconfig USE_DEVICE
+menuconfig USING_DEVICE
      bool "Using device system"
      default y
 
-     if USE_DEVICE
+     if USING_DEVICE
           config RT_USING_DEVICE_OPS
               bool "Using ops for device"
-              depends on USE_DEVICE
+              depends on USING_DEVICE
               default y
 
           orsource "device/Kconfig"
      endif
 
-menuconfig USE_EXT_IPC
-     bool "Enable extern ipc features"
-     default y
-
-     if USE_EXT_IPC
-          orsource "ipc/Kconfig"
-     endif
+orsource "ipc/Kconfig"

@@ -10,7 +10,7 @@
  */
 #include "config.h"
 
-#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USE_TIM)
+#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USING_TIM)
 
 #if defined(CONFIG_BSP_TIM1) || defined(CONFIG_BSP_TIM3) || defined(CONFIG_BSP_TIM6)
 

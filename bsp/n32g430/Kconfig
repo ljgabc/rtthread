@@ -57,7 +57,7 @@ endchoice
 
 config BSP_UART1
      bool "Uart1 Support"
-     depends on USE_SERIAL
+     depends on USING_SERIAL
      default n
 
 choice
@@ -96,7 +96,7 @@ endchoice
 
 config BSP_UART2
      bool "Uart2 Support"
-     depends on USE_SERIAL
+     depends on USING_SERIAL
      default n
 
 choice
@@ -138,7 +138,7 @@ endchoice
 
 config BSP_UART3
      bool "Uart3 Support"
-     depends on USE_SERIAL
+     depends on USING_SERIAL
      default n
 
 choice
@@ -175,7 +175,7 @@ endchoice
 
 config BSP_UART4
      bool "Uart4 Support"
-     depends on USE_SERIAL
+     depends on USING_SERIAL
      default n
 
 choice
@@ -215,7 +215,7 @@ endchoice
 
 config BSP_I2C1
      bool "I2C1 Support"
-     depends on USE_I2C
+     depends on USING_I2C
      default n
 
 choice
@@ -264,7 +264,7 @@ endchoice
 
 config BSP_I2C2
      bool "I2C2 Support"
-     depends on USE_I2C
+     depends on USING_I2C
      default n
 
 choice

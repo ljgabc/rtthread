@@ -35,4 +35,6 @@ ncscope.*
 tags
 
 
-*.old
+config.h*
+
+.config*

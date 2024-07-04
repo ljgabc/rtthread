@@ -10,7 +10,7 @@
  */
 #include "config.h"
 
-#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USE_SERIAL)
+#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USING_SERIAL)
 
 #include "bsp/n32g003/library/n32g003_gpio.h"
 #include "bsp/n32g003/library/n32g003_rcc.h"

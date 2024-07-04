@@ -14,8 +14,6 @@
 #include <rtthread.h>
 #include "bsp/n32g430/system/system_n32g430.h"
 
-#ifdef CONFIG_USE_RTOS
-
 #define _SCB_BASE (0xE000E010UL)
 #define _SYSTICK_CTRL (*(rt_uint32_t*)(_SCB_BASE + 0x0))
 #define _SYSTICK_LOAD (*(rt_uint32_t*)(_SCB_BASE + 0x4))
@@ -104,35 +102,33 @@ void SysTick_Handler(void)
     rt_interrupt_leave();
 }
 
-#endif
-
 #include "bsp/n32g430/library/n32g430_rcc.c"
 #include "bsp/n32g430/library/n32g430_flash.c"
 #include "bsp/n32g430/library/n32g430_misc.c"
 #include "bsp/n32g430/system/system_n32g430.c"
 
-#ifdef CONFIG_USE_ADC
+#ifdef CONFIG_USING_ADC
 #include "bsp/n32g430/driver/drv_adc.c"
 #include "bsp/n32g430/library/n32g430_adc.c"
 #endif
 
-#ifdef CONFIG_USE_PIN
+#ifdef CONFIG_USING_PIN
 #include "bsp/n32g430/driver/drv_pin.c"
 #include "bsp/n32g430/library/n32g430_exti.c"
 #include "bsp/n32g430/library/n32g430_gpio.c"
 #endif
 
-#ifdef CONFIG_USE_SERIAL
+#ifdef CONFIG_USING_SERIAL
 #include "bsp/n32g430/driver/drv_serial.c"
 #include "bsp/n32g430/library/n32g430_uart.c"
 #endif
 
-#ifdef CONFIG_USE_SPI
+#ifdef CONFIG_USING_SPI
 #include "mcu/n32g430/bsp/drv_spi.c"
 #include "mcu/n32g430/library/n32g430_spi.c"
 #endif
 
-#ifdef CONFIG_USE_I2C
+#ifdef CONFIG_USING_I2C
 #include "bsp/n32g430/driver/drv_i2c.c"
 #include "bsp/n32g430/library/n32g430_i2c.c"
 #endif

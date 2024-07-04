@@ -10,7 +10,7 @@
  */
 #include "config.h"
 
-#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USE_ADC)
+#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USING_ADC)
 
 #include "bsp/n32g003/library/n32g003_adc.h"
 #include "bsp/n32g003/library/n32g003_gpio.h"

@@ -146,7 +146,7 @@ struct rt_serial_ops {
     void (*start_tx)(struct rt_device* dev);
     void (*stop_tx)(struct rt_device* dev);
 
-#ifdef CONFIG_SERIAL_USE_DMA_TX
+#ifdef CONFIG_SERIAL_USING_DMA_TX
     rt_bool_t (*is_dma_txing)(struct rt_device* dev);
     void (*start_dma_tx)(struct rt_device* dev, rt_uint8_t* buf, rt_ssize_t size);
     void (*stop_dma_tx)(struct rt_device* dev);
@@ -167,12 +167,12 @@ struct rt_device_serial {
     void* serial_rx;
     void* serial_tx;
 
-#ifdef CONFIG_SERIAL_USE_DMA_RX
+#ifdef CONFIG_SERIAL_USING_DMA_RX
     rt_ssize_t dma_idx_rx;
     rt_uint8_t serial_dma_rx[CONFIG_SERIAL_DMA_RX_BUFSZ];
 #endif
 
-#ifdef CONFIG_SERIAL_USE_DMA_TX
+#ifdef CONFIG_SERIAL_USING_DMA_TX
     rt_uint8_t serial_dma_tx[CONFIG_SERIAL_DMA_TX_BUFSZ];
 #endif
 

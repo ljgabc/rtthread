@@ -13,7 +13,3 @@ endmenu
 menu "bsp configuration"
      orsource "bsp/Kconfig"
 endmenu
-
-menu "app configuration"
-     orsource "app/Kconfig"
-endmenu

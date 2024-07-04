@@ -71,7 +71,7 @@
 #define RT_USING_SMALL_MEM_AS_HEAP
 #endif
 
-#ifdef CONFIG_USE_DEVICE
+#ifdef CONFIG_USING_DEVICE
 #define RT_USING_DEVICE
 #define RT_USING_DEVICE_OPS
 #endif
@@ -112,39 +112,43 @@
 
 
 /* Device Drivers */
-#ifdef CONFIG_USE_PIN
+#ifdef CONFIG_USING_PIN
 #define RT_USING_PIN
 #endif
 
-#ifdef CONFIG_USE_TIM
+#ifdef CONFIG_USING_TIM
 #define RT_USING_HWTIMER
 #endif
 
-#ifdef CONFIG_USE_SERIAL
+#ifdef CONFIG_USING_SERIAL
 #define RT_USING_SERIAL
 #endif
 
-#ifdef CONFIG_USE_ADC
+#ifdef CONFIG_USING_ADC
 #define RT_USING_ADC
 #endif
 
-#ifdef CONFIG_USE_DAC
+#ifdef CONFIG_USING_I2C
+#define RT_USING_I2C
+#endif
+
+#ifdef CONFIG_USING_DAC
 #define RT_USING_DAC
 #endif
 
-#ifdef CONFIG_USE_RINGBUFFER
+#ifdef CONFIG_USING_RINGBUFFER
 #define RT_USING_RINGBUFFER
 #endif
 
-#ifdef CONFIG_USE_COMPLETION
+#ifdef CONFIG_USING_COMPLETION
 #define RT_USING_COMPLETION
 #endif
 
-#ifdef CONFIG_USE_DATAQUEUE
+#ifdef CONFIG_USING_DATAQUEUE
 #define RT_USING_DATAQUEUE
 #endif
 
-#ifdef CONFIG_USE_WORKQUEUE
+#ifdef CONFIG_USING_WORKQUEUE
 #define RT_USING_WORKQUEUE
 #endif
 // #define RT_USING_DEVICE_IPC

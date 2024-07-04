@@ -10,7 +10,7 @@
  */
 #include "config.h"
 
-#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USE_CRC) && defined(CONFIG_BSP_CRC)
+#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USING_CRC) && defined(CONFIG_BSP_CRC)
 
 #include "bsp/n32g003/library/n32g003_crc.h"
 #include "bsp/n32g003/library/n32g003_rcc.h"

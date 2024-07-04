@@ -10,7 +10,7 @@
  */
 #include "config.h"
 
-#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USE_I2C) && defined(CONFIG_BSP_I2C1)
+#if defined(CONFIG_BSP_N32G003) && defined(CONFIG_USING_I2C) && defined(CONFIG_BSP_I2C1)
 
 #include "bsp/n32g003/library/n32g003_gpio.h"
 #include "bsp/n32g003/library/n32g003_i2c.h"

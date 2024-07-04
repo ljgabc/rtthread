@@ -1,17 +1,17 @@
-config USE_RINGBUFFER
+config USING_RINGBUFFER
      bool "ringbuffer support"
      default y
 
-config USE_COMPLETION
+config USING_COMPLETION
      bool "completion support"
      default n
 
-config USE_DATAQUEUE
+config USING_DATAQUEUE
      bool "dataqueue support"
      depends on RT_USING_HEAP
      default n
 
-config USE_WORKQUEUE
+config USING_WORKQUEUE
      bool "workqueue support"
      depends on RT_USING_SEMAPHORE
      default n

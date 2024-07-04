@@ -15,123 +15,75 @@ extern "C" {
 #endif
 
 /**
- * @brief Write to an I2C slave
- *
- * @param address   8-bit I2C slave address [ addr | 0 ]
- * @param buffer    Pointer to the byte-array data to send
- * @param size      Number of bytes to send
- * @param flags     I2C Message Flags
- * @return size of bytes write
+ * @brief I2C传输
+ * 
+ * @param dev 设备模型
+ * @param address 子设备地址
+ * @param buffer 数据缓冲区地址
+ * @param size 数据长度
+ * @param flags 读写标志位
+ * @return 传输的数据长度，失败或超时
  */
-rt_ssize_t i2c_write(const struct rt_device* dev, rt_uint32_t address, const char* buffer, rt_ssize_t size,
+rt_ssize_t i2c_transfer(struct rt_device* dev, rt_uint32_t address, rt_uint8_t* buffer, rt_size_t size,
     rt_base_t flags)
 {
     rt_ssize_t ret;
     rt_err_t err;
     RT_ASSERT(dev != RT_NULL);
-    struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
+    struct rt_device_i2c* i2c = (struct rt_device_i2c*)dev;
 
-#ifdef CONFIG_USE_RTOS
-    err = rt_mutex_take(&i2c_dev->lock, RT_WAITING_FOREVER);
+    err = rt_mutex_take(&i2c->lock, RT_WAITING_FOREVER);
     if (err != RT_EOK) {
         return (rt_ssize_t)err;
     }
-#endif
 
-    ret = i2c_dev->ops->write(dev, address, buffer, size, flags);
+    rt_completion_init(&i2c->completion);
 
-#ifdef CONFIG_USE_RTOS
-    err = rt_mutex_release(&i2c_dev->lock);
-    if (err != RT_EOK) {
-        return (rt_ssize_t)err;
-    }
-#endif
-
-    return ret;
-}
-
-/**
- * @brief Read from an I2C slave
- *
- * @param address       8-bit I2C slave address [ addr | 1 ]
- * @param buffer        Pointer to the byte-array to read data in to
- * @param size          Number of bytes to read
- * @param flags     I2C Message Flags
- * @return size of bytes read
- */
-rt_ssize_t i2c_read(const struct rt_device* dev, rt_uint32_t address, rt_uint8_t* buffer, rt_ssize_t size,
-    rt_base_t flags)
-{
-    rt_ssize_t ret;
-    rt_err_t err;
-
-    RT_ASSERT(dev != RT_NULL);
-    struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
-
-    i2c_dev->ops->start(dev);
-    err = rt_completion_wait(&i2c_dev->completion, i2c_dev->timeout);
+    // 发送起始位，等待进入主机模式
+    i2c->ops->start(dev);
+    err = rt_completion_wait(&i2c->completion, i2c->timeout);
     if (err != RT_EOK) {
         return 0;
     }
 
-    i2c_dev->ops->send_addr(dev, address);
-    err = rt_completion_wait(&i2c_dev->completion, i2c_dev->timeout);
+    // 发送地址，等待ACK响应
+    address <<= 1;
+    if ((flags & RT_I2C_FLAG_RD) == RT_I2C_FLAG_RD) {
+        address |= 0x01;
+    }
+    i2c->ops->send_addr(dev, address);
+    err = rt_completion_wait(&i2c->completion, i2c->timeout);
     if (err != RT_EOK) {
         return 0;
     }
-    if (size == 1) {
-        i2c_dev->ops->disable_ack(dev);
-        i2c_dev->ops->stop(dev);
-    } else if(size == 2) {
-        i2c_dev->ops->set_nack_next(dev);
-        i2c_dev->ops->disable_ack(dev);
+
+    if ((flags & RT_I2C_FLAG_RD) == RT_I2C_FLAG_RD) {
+        for (rt_ssize_t i = 0; i < size; i++) {
+            if (i == (size - 1)) {
+                i2c->ops->disable_ack(dev);
+                i2c->ops->stop(dev);
+            }
+            err = rt_completion_wait(&i2c->completion, i2c->timeout);
+            if (err != RT_EOK) {
+                return 0;
+            }
+            buffer[i] = i2c->ops->read_byte(dev);
+        }
     } else {
-        i2c_dev->ops->enable_ack(dev);
+        for (rt_ssize_t i = 0; i < size; i++) {
+            err = rt_completion_wait(&i2c->completion, i2c->timeout);
+            if (err != RT_EOK) {
+                return 0;
+            }
+            i2c->ops->write_byte(dev, buffer[i]);
+        }
+        i2c->ops->stop(dev);
     }
 
-    for (rt_ssize_t i = 0; i < size; i++) {
-        err = rt_completion_wait(&i2c_dev->completion, i2c_dev->timeout);
-        if (err != RT_EOK) {
-            return 0;
-        }
-        buffer[i] = i2c_dev->ops->read_byte(dev);
-        if (i == size - 2) {
-            i2c_dev->ops->disable_ack(dev);
-            i2c_dev->ops->stop(dev);
-        }
-    }
-
-    return size;
-}
-
-rt_ssize_t i2c_transfer(struct rt_device* dev, struct rt_i2c_msg msgs[], rt_uint32_t num)
-{
-    rt_ssize_t ret;
-    rt_err_t err;
-    RT_ASSERT(dev != RT_NULL);
-    struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
-
-#ifdef CONFIG_USE_RTOS
-    err = rt_mutex_take(&i2c_dev->lock, RT_WAITING_FOREVER);
+    err = rt_mutex_release(&i2c->lock);
     if (err != RT_EOK) {
         return (rt_ssize_t)err;
     }
-#endif
-
-    for (rt_uint32_t i = 0; i < num; i++) {
-        if ((msgs[i].flags & RT_I2C_FLAG_RD) == RT_I2C_FLAG_RD) {
-            ret = i2c_read(dev, msgs[i].addr, msgs[i].buf, msgs[i].len, msgs[i].flags);
-        } else {
-            ret = i2c_write(dev, msgs[i].addr, msgs[i].buf, msgs[i].len, msgs[i].flags);
-        }
-    }
-
-#ifdef CONFIG_USE_RTOS
-    err = rt_mutex_release(&i2c_dev->lock);
-    if (err != RT_EOK) {
-        return (rt_ssize_t)err;
-    }
-#endif
 
     return ret;
 }
@@ -146,7 +98,7 @@ rt_err_t _i2c_open(rt_device_t dev, rt_uint16_t oflag)
 static rt_ssize_t _i2c_read(rt_device_t dev,
     rt_off_t pos,
     void* buffer,
-    rt_ssize_t size)
+    rt_size_t size)
 {
     rt_uint16_t addr;
     rt_uint16_t flags;
@@ -155,14 +107,15 @@ static rt_ssize_t _i2c_read(rt_device_t dev,
 
     addr = pos & 0xffff;
     flags = (pos >> 16) & 0xffff;
+    flags |= RT_I2C_FLAG_RD;
 
-    return i2c_read(dev, addr, (char*)buffer, size, flags);
+    return i2c_transfer(dev, addr, (rt_uint8_t*)buffer, size, flags);
 }
 
 static rt_ssize_t _i2c_write(rt_device_t dev,
     rt_off_t pos,
     const void* buffer,
-    rt_ssize_t size)
+    rt_size_t size)
 {
     rt_uint16_t addr;
     rt_uint16_t flags;
@@ -171,31 +124,9 @@ static rt_ssize_t _i2c_write(rt_device_t dev,
 
     addr = pos & 0xffff;
     flags = (pos >> 16) & 0xffff;
+    flags &= ~RT_I2C_FLAG_RD;
 
-    return i2c_write(dev, addr, (const char*)buffer, size, flags);
-}
-
-static rt_err_t _i2c_control(rt_device_t dev, int cmd, void* args)
-{
-    rt_err_t ret;
-    RT_ASSERT(dev != RT_NULL);
-    struct rt_device_i2c* i2c_dev = (struct rt_device_i2c*)dev;
-
-    RT_ASSERT(bus != RT_NULL);
-
-    switch (cmd) {
-    /* set 10-bit addr mode */
-    case RT_I2C_DEV_CTRL_10BIT:
-        i2c_dev->flags |= RT_I2C_FLAG_ADDR_10BIT;
-        break;
-    case RT_I2C_DEV_CTRL_TIMEOUT:
-        i2c_dev->timeout = *(rt_uint32_t*)args;
-        break;
-    default:
-        return i2c_dev->ops->control(dev, cmd, args);
-    }
-
-    return RT_EOK;
+    return i2c_transfer(dev, addr, (const rt_uint8_t*)buffer, size, flags);
 }
 
 /**
@@ -215,7 +146,7 @@ const static struct rt_device_ops i2c_ops = {
     RT_NULL,
     _i2c_read,
     _i2c_write,
-    _i2c_control,
+    RT_NULL,
 };
 #endif
 
@@ -244,11 +175,12 @@ rt_err_t rt_device_i2c_register(struct rt_device_i2c* i2c, const char* name, con
     i2c->dev.close = RT_NULL;
     i2c->dev.read = _i2c_read;
     i2c->dev.write = _i2c_write;
-    i2c->dev.control = _i2c_control;
+    i2c->dev.control = RT_NULL;
 #endif
 
     i2c->ops = ops;
     i2c->dev.user_data = user_data;
+    i2c->timeout = 10; // 10 tick
 
     /* register a character device */
     return rt_device_register(&i2c->dev, name, flag);

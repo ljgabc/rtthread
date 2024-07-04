@@ -18,7 +18,7 @@ endchoice
 
 config BSP_UART1
      bool "Uart1 Support"
-     depends on USE_SERIAL
+     depends on USING_SERIAL
      default n
 
 choice
@@ -54,7 +54,7 @@ endchoice
 
 config BSP_UART2
      bool "Uart2 Support"
-     depends on USE_SERIAL
+     depends on USING_SERIAL
      default n
 
 choice
@@ -87,7 +87,7 @@ endchoice
 
 config BSP_I2C1
      bool "I2C1 Support"
-     depends on USE_I2C
+     depends on USING_I2C
      default n
 
 choice
@@ -127,7 +127,7 @@ endchoice
 
 config BSP_SPI1
      bool "SPI1 Support"
-     depends on USE_SPI
+     depends on USING_SPI
      default n
 
 config BSP_SPI1_SOFT_NSS
@@ -189,7 +189,7 @@ endchoice
 
 config BSP_TIM1
      bool "TIM1 Support"
-     depends on USE_TIM || USE_PWM
+     depends on USING_TIM || USING_PWM
      default n
 
 choice
@@ -360,7 +360,7 @@ endchoice
 
 config BSP_TIM3
      bool "TIM3 Support"
-     depends on USE_TIM || USE_PWM
+     depends on USING_TIM || USING_PWM
      default n
 
 choice
@@ -445,10 +445,10 @@ endchoice
 
 config BSP_TIM6
      bool "TIM6 Support"
-     depends on USE_TIM || USE_PWM
+     depends on USING_TIM || USING_PWM
      default n
 
 config BSP_CRC
      bool "CRC16 Modbus Support"
-     depends on USE_CRC
+     depends on USING_CRC
      default n
