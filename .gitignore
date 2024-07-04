@@ -34,7 +34,6 @@ ncscope.*
 #ctag files
 tags
 
-
-config.h*
-
-.config*
+*.old
+config.h
+/.config
