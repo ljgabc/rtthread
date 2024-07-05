@@ -32,3 +32,5 @@ menuconfig USING_DEVICE
      endif
 
 orsource "ipc/Kconfig"
+
+orsource "button/Kconfig"

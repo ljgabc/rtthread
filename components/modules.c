@@ -74,4 +74,8 @@
 #include "components/ipc/dataqueue.c"
 #endif
 
+#ifdef CONFIG_USING_BUTTON
+#include "components/button/button.c"
+#endif
+
 #endif

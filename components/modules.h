@@ -74,4 +74,8 @@
 #include "components/device/rt_wdt.h"
 #endif
 
+#ifdef CONFIG_USING_BUTTON
+#include "components/button/button.h"
+#endif
+
 #endif

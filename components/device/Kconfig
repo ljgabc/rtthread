@@ -10,7 +10,7 @@ config USING_PIN
 
 config USING_SERIAL
      bool "serial api support"
-     depends on USING_DEVICE
+     depends on USING_DEVICE && RT_USING_HEAP
      select USING_RINGBUFFER
      default n
 

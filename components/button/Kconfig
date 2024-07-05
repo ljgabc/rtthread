@@ -1,0 +1,4 @@
+config USING_BUTTON
+    bool "simple pushbutton support"
+    default n
+
